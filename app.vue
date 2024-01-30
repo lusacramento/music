@@ -27,8 +27,10 @@
 		<section class="mb-8 py-20 text-white text-center relative">
 			<div
 				class="absolute inset-0 w-full h-full bg-contain introduction-bg"
-				style="background-image: url(assets/img/header.png)"
-			></div>
+				style="background-image: url(/imgs/header.png)"
+			>
+				a
+			</div>
 			<div class="container mx-auto">
 				<div class="text-white main-header-content">
 					<h1 class="font-bold text-5xl mb-5">Listen to Great Music!</h1>
