@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 <template>
 	<div>
 		<!-- Header -->
@@ -57,9 +58,10 @@
 				<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
 					<span class="card-title">Songs</span>
 					<!-- Icon -->
-					<i
-						class="fa fa-headphones-alt float-right text-green-400 text-xl"
-					></i>
+					<font-awesome-icon
+						icon="fa-headphones-alt"
+						class="float-right text-green-400 text-xl"
+					/>
 				</div>
 				<!-- Playlist -->
 				<ol id="playlist">
@@ -73,7 +75,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								></font-awesome-icon>
 								15
 							</span>
 						</div>
@@ -88,7 +93,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								></font-awesome-icon>
 								15
 							</span>
 						</div>
@@ -103,7 +111,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								/>
 								15
 							</span>
 						</div>
@@ -118,7 +129,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								/>
 								15
 							</span>
 						</div>
@@ -133,7 +147,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								/>
 								15
 							</span>
 						</div>
@@ -148,7 +165,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								/>
 								15
 							</span>
 						</div>
@@ -163,7 +183,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								/>
 								15
 							</span>
 						</div>
@@ -178,7 +201,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								/>
 								15
 							</span>
 						</div>
@@ -193,7 +219,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								/>
 								15
 							</span>
 						</div>
@@ -208,7 +237,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								/>
 								15
 							</span>
 						</div>
@@ -223,7 +255,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								/>
 								15
 							</span>
 						</div>
@@ -238,7 +273,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								/>
 								15
 							</span>
 						</div>
@@ -253,7 +291,10 @@
 
 						<div class="text-gray-600 text-lg">
 							<span class="comments">
-								<i class="fa fa-comments text-gray-600"></i>
+								<font-awesome-icon
+									icon="fa fa-comments"
+									class="text-gray-600"
+								/>
 								15
 							</span>
 						</div>
@@ -273,7 +314,7 @@
 			<div class="flex flex-nowrap gap-4 items-center">
 				<!-- Play/Pause Button -->
 				<button type="button">
-					<i class="fa fa-play text-gray-500 text-xl"></i>
+					<font-awesome-icon icon="fa fa-play" class="text-gray-500 text-xl" />
 				</button>
 				<!-- Current Position -->
 				<div class="player-currenttime">00:00</div>
@@ -284,7 +325,7 @@
 						class="absolute -top-2.5 -ml-2.5 text-gray-800 text-lg"
 						style="left: 50%"
 					>
-						<i class="fas fa-circle"></i>
+						<font-awesome-icon icon="fas fa-circle" />
 					</span>
 					<!-- Player Progress Bar-->
 					<span
@@ -321,7 +362,7 @@
 							<p class="text-2xl font-bold">Your Account</p>
 							<!-- Modal Close Button -->
 							<div class="modal-close cursor-pointer z-50">
-								<i class="fas fa-times"></i>
+								<font-awesome-icon icon="fas fa-times" />
 							</div>
 						</div>
 
