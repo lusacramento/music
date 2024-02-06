@@ -60,105 +60,8 @@
 						</li>
 					</ul>
 
-					<!-- Login Form -->
-					<form v-show="tab === 'login'">
-						<!-- Email -->
-						<div class="mb-3">
-							<label class="inline-block mb-2">Email</label>
-							<input
-								type="email"
-								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-								placeholder="Enter Email"
-							/>
-						</div>
-						<!-- Password -->
-						<div class="mb-3">
-							<label class="inline-block mb-2">Password</label>
-							<input
-								type="password"
-								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-								placeholder="Password"
-							/>
-						</div>
-						<button
-							type="submit"
-							class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700"
-						>
-							Submit
-						</button>
-					</form>
-					<!-- Registration Form -->
-					<form v-show="tab === 'register'">
-						<!-- Name -->
-						<div class="mb-3">
-							<label class="inline-block mb-2">Name</label>
-							<input
-								type="text"
-								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-								placeholder="Enter Name"
-							/>
-						</div>
-						<!-- Email -->
-						<div class="mb-3">
-							<label class="inline-block mb-2">Email</label>
-							<input
-								type="email"
-								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-								placeholder="Enter Email"
-							/>
-						</div>
-						<!-- Age -->
-						<div class="mb-3">
-							<label class="inline-block mb-2">Age</label>
-							<input
-								type="number"
-								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-							/>
-						</div>
-						<!-- Password -->
-						<div class="mb-3">
-							<label class="inline-block mb-2">Password</label>
-							<input
-								type="password"
-								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-								placeholder="Password"
-							/>
-						</div>
-						<!-- Confirm Password -->
-						<div class="mb-3">
-							<label class="inline-block mb-2">Confirm Password</label>
-							<input
-								type="password"
-								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-								placeholder="Confirm Password"
-							/>
-						</div>
-						<!-- Country -->
-						<div class="mb-3">
-							<label class="inline-block mb-2">Country</label>
-							<select
-								class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-							>
-								<option value="USA">USA</option>
-								<option value="Mexico">Mexico</option>
-								<option value="Germany">Germany</option>
-							</select>
-						</div>
-						<!-- TOS -->
-						<div class="mb-3 pl-6">
-							<input
-								type="checkbox"
-								class="w-4 h-4 float-left -ml-6 mt-1 rounded"
-							/>
-							<label class="inline-block">Accept terms of service</label>
-						</div>
-						<button
-							type="submit"
-							class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700"
-						>
-							Submit
-						</button>
-					</form>
+					<LoginForm v-if="tab === 'login'" />
+					<RegisterForm v-else />
 				</div>
 			</div>
 		</div>
@@ -166,6 +69,61 @@
 </template>
 
 <script lang="ts" setup>
+	import { defineRule, configure } from 'vee-validate'
+
+	import {
+		required,
+		min,
+		min_value as minValue,
+		max,
+		max_value as maxValue,
+		alpha_spaces as alphaSpaces,
+		email,
+		confirmed,
+		not_one_of as excluded,
+	} from '@vee-validate/rules'
+
+	defineRule('required', required)
+	defineRule('tos', required)
+	defineRule('min', min)
+	defineRule('min_value', minValue)
+	defineRule('max', max)
+	defineRule('max_value', maxValue)
+	defineRule('alpha-spaces', alphaSpaces)
+	defineRule('email', email)
+	defineRule('passwords_mismatch', confirmed)
+	defineRule('excluded', excluded)
+	defineRule('country_excluded', excluded)
+
+	configure({
+		generateMessage: (ctx) => {
+			const messages = {
+				required: `The field ${ctx.field} is required.`,
+				min: `The field ${ctx.field} mis too short.`,
+				max: `The field  ${ctx.field} is too long.`,
+				alpha_spaces: `The field ${ctx.field} may only contain alphabetical characters and spaces.`,
+				email: `The field ${ctx.field} must bee a valid email.`,
+				min_value: `The field${ctx.field} is too low.`,
+				max_value: `The  field ${ctx.field} is too high.`,
+				excluded: `You are not allowed to use this value for the field ${ctx.field}.`,
+				country_excluded: `Due to restrictions, we donot accept users from this location.`,
+				passwords_mismatch: `The passwords don't match.`,
+				tos: `You must accept the Terms of Service.`,
+			}
+
+			const message = messages[ctx.rule?.name as keyof typeof messages]
+				? messages[ctx.rule?.name as keyof typeof messages]
+				: `The field ${ctx.field} is invalid.`
+
+			return message
+		},
+
+		validateOnBlur: true,
+		validateOnChange: true,
+		validateOnInput: false,
+		validateOnModelUpdate: true,
+	})
+
 	const hiddenClass = computed(() => {
 		return useMyModalStore().hiddenClass
 	})
@@ -174,7 +132,5 @@
 		useMyModalStore().toogleIsOpened()
 	}
 
-	let tab = ref('login')
+	const tab = ref('login')
 </script>
-
-<style></style>
