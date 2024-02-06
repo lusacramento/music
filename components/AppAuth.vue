@@ -132,7 +132,5 @@
 		useMyModalStore().toogleIsOpened()
 	}
 
-	let tab = ref('login')
+	const tab = ref('login')
 </script>
-
-<style></style>
