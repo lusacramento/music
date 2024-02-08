@@ -43,6 +43,9 @@ export default defineNuxtConfig({
 
 		'@pinia/nuxt',
 	],
+
+	plugins: ['~/plugins/firebase.client.ts'],
+
 	css: [
 		'~/assets/css/main.css',
 		'@fortawesome/fontawesome-svg-core/styles.css',
