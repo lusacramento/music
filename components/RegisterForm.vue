@@ -133,7 +133,7 @@
 	const reg_alert_variant = ref('bg-blue-500')
 	const reg_alert_msg = ref('Please wait! You accont is being created.')
 
-	const register = function (values: {}) {
+	const register = async function (values: any) {
 		// release trigger
 		reg_show_alert.value = true
 		reg_in_submission.value = true
@@ -142,11 +142,13 @@
 		reg_alert_variant.value = 'bg-blue-500'
 		reg_alert_msg.value = 'Please wait! You accont is being created.'
 
+		// firebase
+		const createUser = useUser().createUser
+		createUser(values.email, values.password)
+
 		// apply changes
 		reg_alert_variant.value = 'bg-green-500'
 		reg_alert_msg.value = 'Success! Your account has been created!'
-
-		console.log(values)
 	}
 </script>
 
