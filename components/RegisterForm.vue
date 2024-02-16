@@ -133,20 +133,48 @@
 	const reg_alert_variant = ref('bg-blue-500')
 	const reg_alert_msg = ref('Please wait! You accont is being created.')
 
-	const register = function (values: {}) {
-		// release trigger
+	const register = async function (values: any) {
+		releaseTrigger()
+		resetDefaultValues()
+
+		// firebase
+		createUser()
+
+		async function createUser() {
+			try {
+				await useMyUserStore().createUser(values)
+				showSuccessMessage()
+
+				window.location.reload()
+			} catch (error) {
+				showErrorMessage(error)
+			}
+		}
+	}
+
+	function releaseTrigger() {
 		reg_show_alert.value = true
 		reg_in_submission.value = true
+	}
 
-		// default reset
+	function resetDefaultValues() {
 		reg_alert_variant.value = 'bg-blue-500'
 		reg_alert_msg.value = 'Please wait! You accont is being created.'
+	}
 
-		// apply changes
+	function showSuccessMessage() {
 		reg_alert_variant.value = 'bg-green-500'
 		reg_alert_msg.value = 'Success! Your account has been created!'
+	}
 
-		console.log(values)
+	function showErrorMessage(error: any) {
+		reg_alert_variant.value = 'bg-red-500'
+
+		const messengeErrorResponse = error.customData._tokenResponse.error.message
+		messengeErrorResponse === 'EMAIL_EXISTS'
+			? (reg_alert_msg.value = 'This email is already registered!')
+			: (reg_alert_msg.value =
+					'An unexpected error occured. Please try again later.')
 	}
 </script>
 
