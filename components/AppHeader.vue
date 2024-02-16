@@ -15,7 +15,7 @@
 					</li>
 					<template v-else>
 						<li>
-							<a class="px-2 text-white" href="#">Manage</a>
+							<NuxtLink to="/manage" class="px-2 text-white">Manage</NuxtLink>
 						</li>
 						<li>
 							<a @click.prevent="logout" class="px-2 text-white" href="#"
