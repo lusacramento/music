@@ -6,9 +6,21 @@ import {
 	faPlay,
 	faCircle,
 	faTimes,
+	faUpload,
+	faCompactDisc,
+	faPencilAlt,
 } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faHeadphonesAlt, faComments, faPlay, faCircle, faTimes)
+library.add(
+	faHeadphonesAlt,
+	faComments,
+	faPlay,
+	faCircle,
+	faTimes,
+	faUpload,
+	faCompactDisc,
+	faPencilAlt,
+)
 
 // This is important, we are going to let Nuxt worry about the CSS
 config.autoAddCss = false
