@@ -57,16 +57,30 @@
 	const login_alert_variant = ref('bg-blue-500')
 	const login_alert_msg = ref('Please wait! We are logging you in.')
 
-	const login = function (values: {}) {
+	const login = async function (values: any) {
 		login_show_alert.value = true
 		login_in_submission.value = true
 
 		login_alert_variant.value = 'bg-blue-500'
 		login_alert_msg.value = 'Please wait! We are logging you in.'
 
+		let response: any = ''
+		response = await useMyUserStore().authenticate(values)
+		if (response.code !== 'auth/invalid-credential') {
+			showSuccessMessage()
+
+			window.location.reload()
+		} else showErrorMessage()
+	}
+
+	function showSuccessMessage() {
 		login_alert_variant.value = 'bg-green-500'
 		login_alert_msg.value = 'Success! You are now logged in!'
+	}
 
-		console.log(values)
+	function showErrorMessage() {
+		login_in_submission.value = false
+		login_alert_variant.value = 'bg-red-500'
+		login_alert_msg.value = 'Invalid login details.'
 	}
 </script>

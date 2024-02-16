@@ -16,9 +16,18 @@ export default defineNuxtPlugin((nuxtApp) => {
 	const app = initializeApp(firebaseConfig)
 	const auth = getAuth(app)
 
+	const onLoad = auth.onAuthStateChanged(() => {
+		const user = auth.currentUser
+		if (user) {
+			useMyUserStore().loginUser()
+		}
+	})
+
 	return {
 		provide: {
+			app: app,
 			auth: auth,
+			onLoad: onLoad,
 		},
 	}
 })

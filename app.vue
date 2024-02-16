@@ -279,3 +279,7 @@ import { FontAwesomeAppIcon } from '@fortawesome/vue-fontawesome';
 		<AppAuth />
 	</div>
 </template>
+<script lang="ts" setup>
+	const nuxtApp = useNuxtApp()
+	nuxtApp.$onLoad
+</script>
