@@ -242,6 +242,10 @@
 </template>
 
 <script lang="ts" setup>
+	definePageMeta({
+		middleware: [function (to, from) {}, 'auth'],
+	})
+
 	useSeoMeta({
 		title: 'Music - Manage',
 	})
