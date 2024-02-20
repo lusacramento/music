@@ -241,6 +241,8 @@
 	</div>
 </template>
 
-<script lang="ts" setup></script>
-
-<style></style>
+<script lang="ts" setup>
+	useSeoMeta({
+		title: 'Music - Manage',
+	})
+</script>
