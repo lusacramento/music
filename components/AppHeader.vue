@@ -2,7 +2,9 @@
 	<header id="header" class="bg-gray-700">
 		<nav class="container mx-auto flex justify-start items-center py-5 px-4">
 			<!-- App Name -->
-			<a class="text-white font-bold uppercase text-2xl mr-4" href="#">Music</a>
+			<NuxtLink class="text-white font-bold uppercase text-2xl mr-4" to="/"
+				>Music</NuxtLink
+			>
 
 			<div class="flex flex-grow items-center">
 				<!-- Primary Navigation -->
@@ -18,8 +20,8 @@
 							<NuxtLink to="/manage" class="px-2 text-white">Manage</NuxtLink>
 						</li>
 						<li>
-							<a @click.prevent="logout" class="px-2 text-white" href="#"
-								>Logout</a
+							<NuxtLink @click.prevent="logout" class="px-2 text-white" to="/"
+								>Logout</NuxtLink
 							>
 						</li>
 					</template>
