@@ -1,0 +1,134 @@
+<template>
+	<div class="bg-white rounded border border-gray-200 relative flex flex-col">
+		<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
+			<span class="card-title">Upload</span>
+			<AppIcon
+				icon="fas fa-upload"
+				class="float-right text-green-400 text-2xl"
+			/>
+		</div>
+		<div class="p-6">
+			<!-- Upload Dropbox -->
+			<div
+				class="w-full px-10 py-20 rounded text-center cursor-pointer border border-dashed border-gray-400 text-gray-400 transition duration-500 hover:text-white hover:bg-green-400 hover:border-green-400 hover:border-solid"
+				:class="{ 'bg-green-400 border-green-400 border-solid': isDragover }"
+				@drag.prevent.stop=""
+				@dragstart.prevent.stop=""
+				@dragend.prevent.stop="isDragover = false"
+				@dragover.prevent.stop="isDragover = true"
+				@dragenter.prevent.stop="isDragover = true"
+				@dragleave.prevent.stop="isDragover = false"
+				@drop.prevent.stop="upload($event)"
+			>
+				<h5>Drop your files here</h5>
+			</div>
+			<hr class="my-6" />
+			<!-- Progess Bars -->
+			<div class="mb-4" v-for="upload in uploads" :key="upload.name">
+				<!-- File Name -->
+				<div class="font-bold text-sm" :class="upload.textClass">
+					<AppIcon :icon="upload.icon" :is-animate="upload.isAnimateIcon" />
+					{{ upload.name }}
+				</div>
+				<div class="flex h-4 overflow-hidden bg-gray-200 rounded">
+					<!-- Inner Progress Bar -->
+					<div
+						class="transition-all progress-bar bg-blue-400"
+						:class="upload.variant"
+						:style="{ width: upload.currentProgress + '%' }"
+					></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script lang="ts" setup>
+	import {
+		getStorage,
+		uploadBytesResumable,
+		ref as reference,
+		type UploadTask,
+	} from 'firebase/storage'
+
+	interface upLoad {
+		task: UploadTask
+		currentProgress: number
+		name: string
+		variant: string
+		icon: string
+		isAnimateIcon: boolean
+		textClass: string
+	}
+
+	const uploads: Ref<upLoad[]> = ref([])
+
+	const isDragover = ref(false)
+
+	const item = { task: null, currentProgress: 0, name: '' }
+
+	function upload($event: any) {
+		// isDragover.value = false
+
+		const files = [...$event.dataTransfer.files]
+
+		files.forEach(async (file) => {
+			if (!isAudioFile(file.type)) return
+
+			const nuxtApp = useNuxtApp()
+			const app = nuxtApp.$app
+
+			const storage = getStorage(app)
+			const storageRef = reference(storage, `songs/${file.name}`)
+
+			const task = uploadBytesResumable(storageRef, file)
+
+			const uploadIndex =
+				uploads.value.push({
+					task: task,
+					currentProgress: 0,
+					name: file.name,
+					variant: 'bg-blue-400',
+					icon: 'fa-solid fa-spinner',
+					textClass: '',
+					isAnimateIcon: true,
+				}) - 1
+
+			task.on(
+				'state_changed',
+				(snapshot) => {
+					const progress =
+						(snapshot.bytesTransferred / snapshot.totalBytes) * 100
+					uploads.value[uploadIndex].currentProgress = progress
+					uploads.value[uploadIndex].name = `${file.name} (${progress.toFixed(
+						0,
+					)}%)`
+				},
+				(error) => {
+					uploads.value[uploadIndex].variant = 'bg-red-400'
+					uploads.value[uploadIndex].icon = 'fa fa-times'
+					uploads.value[uploadIndex].textClass = 'text-red-400	'
+					uploads.value[uploadIndex].isAnimateIcon = false
+					uploads.value[
+						uploadIndex
+					].name = `Error. The "${file.name}" file size may be too large.`
+				},
+				() => {
+					uploads.value[uploadIndex].variant = 'bg-green-400'
+					uploads.value[uploadIndex].icon = 'fa fa-check'
+					uploads.value[uploadIndex].textClass = 'text-green-400	'
+					uploads.value[uploadIndex].isAnimateIcon = false
+					uploads.value[
+						uploadIndex
+					].name = `"${file.name}" upload with success!`
+				},
+			)
+		})
+	}
+
+	function isAudioFile(file: any) {
+		return file === 'audio/mpeg'
+	}
+</script>
+
+<style></style>

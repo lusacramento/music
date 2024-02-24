@@ -250,3 +250,11 @@
 		</div>
 	</div>
 </template>
+
+<script lang="ts" setup>
+	useSeoMeta({
+		title: 'Music - Home Page',
+	})
+</script>
+
+<style></style>
