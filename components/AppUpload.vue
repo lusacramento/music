@@ -150,13 +150,7 @@
 
 					postSongDetail(song, task)
 
-					uploads.value[uploadIndex].variant = 'bg-green-400'
-					uploads.value[uploadIndex].icon = 'fa fa-check'
-					uploads.value[uploadIndex].textClass = 'text-green-400	'
-					uploads.value[uploadIndex].isAnimateIcon = false
-					uploads.value[
-						uploadIndex
-					].name = `"${file.name}" upload with success!`
+					showSuccessMessage(uploadIndex, file.name)
 				},
 			)
 		})
@@ -193,6 +187,14 @@
 	defineExpose({
 		cancelUploads,
 	})
+
+	function showSuccessMessage(uploadIndex: number, fileName: string) {
+		uploads.value[uploadIndex].variant = 'bg-green-400'
+		uploads.value[uploadIndex].icon = 'fa fa-check'
+		uploads.value[uploadIndex].textClass = 'text-green-400	'
+		uploads.value[uploadIndex].isAnimateIcon = false
+		uploads.value[uploadIndex].name = `"${fileName}" upload with success!`
+	}
 </script>
 
 <style></style>
