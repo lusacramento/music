@@ -52,10 +52,6 @@
 
 <script lang="ts" setup>
 	import {
-		faTasks,
-		type faSuitcaseRolling,
-	} from '@fortawesome/free-solid-svg-icons'
-	import {
 		collection,
 		doc,
 		initializeFirestore,
