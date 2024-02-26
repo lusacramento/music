@@ -105,14 +105,15 @@
 
 	const inSubmission = ref(false)
 	const showAlert = ref(false)
-	const alertVariant = ref('bg-blue-500')
-	const alertMsg = ref('Please wait! Updating song info.')
+
+	const alertVariant = ref('')
+	const alertMsg = ref('')
 
 	async function edit(values: any) {
 		inSubmission.value = true
 		showAlert.value = true
-		alertVariant.value = 'bg-blue-500'
-		alertMsg.value = 'Please wait! Updating song info.'
+
+		showWaitMessage()
 
 		try {
 			await useISong().alterSong(props.song.docId, values)
@@ -120,19 +121,33 @@
 			props.updateUnsavedFlag(false)
 		} catch (error) {
 			inSubmission.value = false
-			alertVariant.value = 'bg-red-500'
-			alertMsg.value = 'Something went wrong! Try again later'
+			showErrorMessage()
 			return
 		}
 
 		inSubmission.value = false
-		alertVariant.value = 'bg-green-500'
-		alertMsg.value = 'Success!'
+
+		showSuccessMessage()
 	}
 
 	async function deleteSong() {
 		await useISong().deleteSong(props.song.originalName, props.song.docId)
 
 		props.deleteSong(props.i)
+	}
+
+	function showSuccessMessage() {
+		alertVariant.value = 'bg-green-500'
+		alertMsg.value = 'Success!'
+	}
+
+	function showErrorMessage() {
+		alertVariant.value = 'bg-red-500'
+		alertMsg.value = 'Something went wrong! Try again later'
+	}
+
+	function showWaitMessage() {
+		alertVariant.value = 'bg-blue-500'
+		alertMsg.value = 'Please wait! Updating song info.'
 	}
 </script>
