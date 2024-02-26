@@ -74,24 +74,10 @@
 
 <script lang="ts" setup>
 	import {
-		collection,
-		doc,
-		initializeFirestore,
-		updateDoc,
-		deleteDoc,
-	} from 'firebase/firestore'
-
-	import {
 		Form as VeeForm,
 		Field as VeeField,
 		ErrorMessage as VeeErrorMessage,
 	} from 'vee-validate'
-
-	import {
-		deleteObject as remove,
-		getStorage,
-		ref as refStorage,
-	} from 'firebase/storage'
 
 	const props = defineProps({
 		song: { type: Object, required: true },
@@ -100,12 +86,6 @@
 		deleteSong: { type: Function, required: true },
 		updateUnsavedFlag: { type: Function, required: true },
 	})
-
-	const app = useNuxtApp().$app
-	const store = initializeFirestore(app, {})
-	const colection = collection(store, 'songs')
-
-	const docRef = doc(colection, props.song.docId)
 
 	const song = ref({
 		modifiedName: props.song.modifiedName,
@@ -125,44 +105,49 @@
 
 	const inSubmission = ref(false)
 	const showAlert = ref(false)
-	const alertVariant = ref('bg-blue-500')
-	const alertMsg = ref('Please wait! Updating song info.')
+
+	const alertVariant = ref('')
+	const alertMsg = ref('')
 
 	async function edit(values: any) {
 		inSubmission.value = true
 		showAlert.value = true
-		alertVariant.value = 'bg-blue-500'
-		alertMsg.value = 'Please wait! Updating song info.'
+
+		showWaitMessage()
 
 		try {
-			await updateDoc(docRef, values)
+			await useISong().alterSong(props.song.docId, values)
+			props.updateSong(props.i, values)
+			props.updateUnsavedFlag(false)
 		} catch (error) {
 			inSubmission.value = false
-			alertVariant.value = 'bg-red-500'
-			alertMsg.value = 'Something went wrong! Try again later'
+			showErrorMessage()
 			return
 		}
 
-		props.updateSong(props.i, values)
-		props.updateUnsavedFlag(false)
-
 		inSubmission.value = false
+
+		showSuccessMessage()
+	}
+
+	async function deleteSong() {
+		await useISong().deleteSong(props.song.originalName, props.song.docId)
+
+		props.deleteSong(props.i)
+	}
+
+	function showSuccessMessage() {
 		alertVariant.value = 'bg-green-500'
 		alertMsg.value = 'Success!'
 	}
 
-	async function deleteSong() {
-		const storage = getStorage(app)
+	function showErrorMessage() {
+		alertVariant.value = 'bg-red-500'
+		alertMsg.value = 'Something went wrong! Try again later'
+	}
 
-		const storageRef = refStorage(storage, `/songs/${props.song.originalName}`)
-
-		await remove(storageRef)
-			.then(async () => {
-				await deleteDoc(docRef)
-				props.deleteSong(props.i)
-			})
-			.catch((err: any) => {
-				console.log(err)
-			})
+	function showWaitMessage() {
+		alertVariant.value = 'bg-blue-500'
+		alertMsg.value = 'Please wait! Updating song info.'
 	}
 </script>

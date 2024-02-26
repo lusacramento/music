@@ -52,23 +52,13 @@
 
 <script lang="ts" setup>
 	import {
-		faTasks,
-		type faSuitcaseRolling,
-	} from '@fortawesome/free-solid-svg-icons'
-	import {
 		collection,
 		doc,
 		initializeFirestore,
 		setDoc,
 		getDoc,
 	} from 'firebase/firestore'
-	import {
-		getStorage,
-		uploadBytesResumable,
-		ref as reference,
-		type UploadTask,
-		getDownloadURL,
-	} from 'firebase/storage'
+	import { type UploadTask, getDownloadURL } from 'firebase/storage'
 
 	import type { SongDetails } from '~/composables/songDetail'
 
@@ -106,10 +96,7 @@
 		files.forEach(async (file) => {
 			if (!isAudioFile(file.type)) return
 
-			const storage = getStorage(app)
-			const storageRef = reference(storage, `songs/${file.name}`)
-
-			const task = uploadBytesResumable(storageRef, file)
+			const task = useISong().addSong(file)
 
 			const uploadIndex =
 				uploads.value.push({
@@ -133,13 +120,7 @@
 					)}%)`
 				},
 				(error) => {
-					uploads.value[uploadIndex].variant = 'bg-red-400'
-					uploads.value[uploadIndex].icon = 'fa fa-times'
-					uploads.value[uploadIndex].textClass = 'text-red-400	'
-					uploads.value[uploadIndex].isAnimateIcon = false
-					uploads.value[
-						uploadIndex
-					].name = `Error. The "${file.name}" file size may be too large.`
+					showErrorMessage(uploadIndex, file.name)
 				},
 				async () => {
 					const song: SongDetails = await {
@@ -154,13 +135,7 @@
 
 					postSongDetail(song, task)
 
-					uploads.value[uploadIndex].variant = 'bg-green-400'
-					uploads.value[uploadIndex].icon = 'fa fa-check'
-					uploads.value[uploadIndex].textClass = 'text-green-400	'
-					uploads.value[uploadIndex].isAnimateIcon = false
-					uploads.value[
-						uploadIndex
-					].name = `"${file.name}" upload with success!`
+					showSuccessMessage(uploadIndex, file.name)
 				},
 			)
 		})
@@ -197,6 +172,24 @@
 	defineExpose({
 		cancelUploads,
 	})
+
+	function showSuccessMessage(uploadIndex: number, fileName: string) {
+		uploads.value[uploadIndex].variant = 'bg-green-400'
+		uploads.value[uploadIndex].icon = 'fa fa-check'
+		uploads.value[uploadIndex].textClass = 'text-green-400	'
+		uploads.value[uploadIndex].isAnimateIcon = false
+		uploads.value[uploadIndex].name = `"${fileName}" upload with success!`
+	}
+
+	function showErrorMessage(uploadIndex: number, fileName: string) {
+		uploads.value[uploadIndex].variant = 'bg-red-400'
+		uploads.value[uploadIndex].icon = 'fa fa-times'
+		uploads.value[uploadIndex].textClass = 'text-red-400	'
+		uploads.value[uploadIndex].isAnimateIcon = false
+		uploads.value[
+			uploadIndex
+		].name = `Error. The "${fileName}" file size may be too large.`
+	}
 </script>
 
 <style></style>
