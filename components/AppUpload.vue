@@ -87,7 +87,7 @@
 	const auth = nuxtApp.$auth
 
 	function upload($event: any) {
-		// isDragover.value = false
+		isDragover.value = false
 
 		const files = $event.dataTransfer
 			? [...$event.dataTransfer.files]
