@@ -58,13 +58,7 @@
 		setDoc,
 		getDoc,
 	} from 'firebase/firestore'
-	import {
-		getStorage,
-		uploadBytesResumable,
-		ref as reference,
-		type UploadTask,
-		getDownloadURL,
-	} from 'firebase/storage'
+	import { type UploadTask, getDownloadURL } from 'firebase/storage'
 
 	import type { SongDetails } from '~/composables/songDetail'
 
@@ -102,10 +96,7 @@
 		files.forEach(async (file) => {
 			if (!isAudioFile(file.type)) return
 
-			const storage = getStorage(app)
-			const storageRef = reference(storage, `songs/${file.name}`)
-
-			const task = uploadBytesResumable(storageRef, file)
+			const task = useISong().addSong(file)
 
 			const uploadIndex =
 				uploads.value.push({
