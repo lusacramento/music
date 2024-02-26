@@ -80,8 +80,6 @@
 
 	const isDragover = ref(false)
 
-	const item = { task: null, currentProgress: 0, name: '' }
-
 	const nuxtApp = useNuxtApp()
 	const app = nuxtApp.$app
 	const auth = nuxtApp.$auth
