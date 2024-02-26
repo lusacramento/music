@@ -6,6 +6,7 @@
 			</h4>
 			<button
 				class="ml-1 py-1 px-2 text-sm rounded text-white bg-red-600 float-right"
+				@click.prevent="deleteSong"
 			>
 				<AppIcon icon="fa-times" class="" />
 			</button>
@@ -36,6 +37,7 @@
 						type="text"
 						class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
 						placeholder="Enter Song Title"
+						@input="props.updateUnsavedFlag(true)"
 					/>
 					<VeeErrorMessage name="modifiedName" class="text-red-600" />
 				</div>
@@ -46,6 +48,7 @@
 						type="text"
 						class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
 						placeholder="Enter Genre"
+						@input="props.updateUnsavedFlag(true)"
 					/>
 					<VeeErrorMessage name="genre" class="text-red-600" />
 				</div>
@@ -75,18 +78,34 @@
 		doc,
 		initializeFirestore,
 		updateDoc,
+		deleteDoc,
 	} from 'firebase/firestore'
+
 	import {
 		Form as VeeForm,
 		Field as VeeField,
 		ErrorMessage as VeeErrorMessage,
 	} from 'vee-validate'
 
+	import {
+		deleteObject as remove,
+		getStorage,
+		ref as refStorage,
+	} from 'firebase/storage'
+
 	const props = defineProps({
 		song: { type: Object, required: true },
-		updateSong: { type: Function, required: true },
 		i: { type: Number, required: true },
+		updateSong: { type: Function, required: true },
+		deleteSong: { type: Function, required: true },
+		updateUnsavedFlag: { type: Function, required: true },
 	})
+
+	const app = useNuxtApp().$app
+	const store = initializeFirestore(app, {})
+	const colection = collection(store, 'songs')
+
+	const docRef = doc(colection, props.song.docId)
 
 	const song = ref({
 		modifiedName: props.song.modifiedName,
@@ -116,13 +135,6 @@
 		alertMsg.value = 'Please wait! Updating song info.'
 
 		try {
-			const app = useNuxtApp().$app
-
-			const store = initializeFirestore(app, {})
-			const colection = collection(store, 'songs')
-
-			const docRef = doc(colection, props.song.docId)
-
 			await updateDoc(docRef, values)
 		} catch (error) {
 			inSubmission.value = false
@@ -132,9 +144,25 @@
 		}
 
 		props.updateSong(props.i, values)
+		props.updateUnsavedFlag(false)
 
 		inSubmission.value = false
 		alertVariant.value = 'bg-green-500'
 		alertMsg.value = 'Success!'
+	}
+
+	async function deleteSong() {
+		const storage = getStorage(app)
+
+		const storageRef = refStorage(storage, `/songs/${props.song.originalName}`)
+
+		await remove(storageRef)
+			.then(async () => {
+				await deleteDoc(docRef)
+				props.deleteSong(props.i)
+			})
+			.catch((err: any) => {
+				console.log(err)
+			})
 	}
 </script>

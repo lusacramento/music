@@ -60,6 +60,7 @@
 		doc,
 		initializeFirestore,
 		setDoc,
+		getDoc,
 	} from 'firebase/firestore'
 	import {
 		getStorage,
@@ -70,6 +71,10 @@
 	} from 'firebase/storage'
 
 	import type { SongDetails } from '~/composables/songDetail'
+
+	const props = defineProps({
+		addSong: { type: Function, required: true },
+	})
 
 	interface upLoad {
 		task: UploadTask
@@ -172,7 +177,10 @@
 
 			const docRef = doc(colection)
 
-			await setDoc(docRef, song)
+			const songRef = await setDoc(docRef, song)
+			const songSnapshot = await getDoc(docRef)
+
+			props.addSong(songSnapshot)
 		} catch (error) {
 			// const user = getUser()
 			// deleteUser(userResponse)

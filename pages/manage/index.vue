@@ -4,7 +4,7 @@
 		<section class="container mx-auto mt-6">
 			<div class="md:grid md:grid-cols-3 md:gap-4">
 				<div class="col-span-1">
-					<AppUpload ref="upload" />
+					<AppUpload ref="upload" :addSong="addSong" />
 				</div>
 				<div class="col-span-2">
 					<div
@@ -23,8 +23,10 @@
 								v-for="(song, i) in songs"
 								:key="song.docId"
 								:song="song"
-								:updateSong="updateSong"
 								:i="i"
+								:updateSong="updateSong"
+								:deleteSong="deleteSong"
+								:updateUnsavedFlag="updateUnsavedFlag"
 							/>
 						</div>
 					</div>
@@ -82,7 +84,7 @@
 		where,
 	} from 'firebase/firestore'
 
-	const songs: any = []
+	const songs: any = ref([])
 
 	const nuxtApp = useNuxtApp()
 	const app = nuxtApp.$app
@@ -95,11 +97,7 @@
 	const snapshot = await getDocs(queryById)
 
 	snapshot.forEach((doc) => {
-		const song = {
-			...doc.data(),
-			docId: doc.id,
-		}
-		songs.push(song)
+		addSong(doc)
 	})
 
 	useSeoMeta({
@@ -108,13 +106,39 @@
 
 	const upload = ref<InstanceType<typeof Upload> | null>(null)
 
+	let unsavedFlag = false
+
 	onBeforeRouteLeave((to, from, next) => {
 		upload.value?.cancelUploads()
-		next()
+
+		if (!unsavedFlag) {
+			next()
+		} else {
+			const leave = confirm(
+				'You have unsaved changes. Are you sure you want to leave?',
+			)
+			next(leave)
+		}
 	})
 
+	function addSong(doc: any) {
+		const song = {
+			...doc.data(),
+			docId: doc.id,
+		}
+		songs.value.push(song)
+	}
+
 	function updateSong(this: any, i: string, song: any) {
-		this.songs[i].modifiedName = songs[i].modifiedName
-		this.songs[i].genre = songs[i].genre
+		this.songs.value[i].modifiedName = songs.value[i].modifiedName
+		this.songs.value[i].genre = songs.value[i].genre
+	}
+
+	function deleteSong(i: number) {
+		songs.value.splice(i, 1)
+	}
+
+	function updateUnsavedFlag(isUnsaved: boolean) {
+		unsavedFlag = isUnsaved
 	}
 </script>
