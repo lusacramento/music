@@ -83,25 +83,13 @@
 	// })
 
 	import Upload from '@/components/AppUpload.vue'
-	import {
-		collection,
-		initializeFirestore,
-		getDocs,
-		query,
-		where,
-	} from 'firebase/firestore'
+
+	import { useISong } from '~/composables/iSong'
 
 	const songs: any = ref([])
 
-	const nuxtApp = useNuxtApp()
-	const app = nuxtApp.$app
-	const auth = nuxtApp.$auth
-
-	const store = initializeFirestore(app, {})
-	const colection = collection(store, 'songs')
-
-	const queryById = query(colection, where('uid', '==', auth.currentUser?.uid))
-	const snapshot = await getDocs(queryById)
+	// const snapshot = await getDocs(queryById)
+	const snapshot = await useISong().getSongs()
 
 	snapshot.forEach((doc) => {
 		addSong(doc)
