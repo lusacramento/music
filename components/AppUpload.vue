@@ -129,13 +129,7 @@
 					)}%)`
 				},
 				(error) => {
-					uploads.value[uploadIndex].variant = 'bg-red-400'
-					uploads.value[uploadIndex].icon = 'fa fa-times'
-					uploads.value[uploadIndex].textClass = 'text-red-400	'
-					uploads.value[uploadIndex].isAnimateIcon = false
-					uploads.value[
-						uploadIndex
-					].name = `Error. The "${file.name}" file size may be too large.`
+					showErrorMessage(uploadIndex, file.name)
 				},
 				async () => {
 					const song: SongDetails = await {
@@ -194,6 +188,16 @@
 		uploads.value[uploadIndex].textClass = 'text-green-400	'
 		uploads.value[uploadIndex].isAnimateIcon = false
 		uploads.value[uploadIndex].name = `"${fileName}" upload with success!`
+	}
+
+	function showErrorMessage(uploadIndex: number, fileName: string) {
+		uploads.value[uploadIndex].variant = 'bg-red-400'
+		uploads.value[uploadIndex].icon = 'fa fa-times'
+		uploads.value[uploadIndex].textClass = 'text-red-400	'
+		uploads.value[uploadIndex].isAnimateIcon = false
+		uploads.value[
+			uploadIndex
+		].name = `Error. The "${fileName}" file size may be too large.`
 	}
 </script>
 
