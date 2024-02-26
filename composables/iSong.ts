@@ -4,6 +4,8 @@ import {
 	getDocs,
 	query,
 	where,
+	deleteDoc,
+	doc,
 } from 'firebase/firestore'
 
 import {
@@ -12,6 +14,7 @@ import {
 	ref,
 	type UploadTask,
 	getDownloadURL,
+	deleteObject,
 } from 'firebase/storage'
 
 const app = useNuxtApp().$app
@@ -35,7 +38,22 @@ function addSong(file: any) {
 
 function alterSong() {}
 
-function deleteSong() {}
+async function deleteSong(originalName: string, id: string) {
+	const storageRef = ref(storage, `/songs/${originalName}`)
+
+	await deleteObject(storageRef)
+		.then(async () => {
+			await deleteDoc(getDocRefById(id))
+		})
+		.catch((err: any) => {
+			console.log(err)
+		})
+}
+
+function getDocRefById(id: string) {
+	return doc(colection, id)
+}
+
 export const useISong = () => {
 	return {
 		getSongs,

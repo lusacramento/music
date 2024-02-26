@@ -152,17 +152,8 @@
 	}
 
 	async function deleteSong() {
-		const storage = getStorage(app)
+		await useISong().deleteSong(props.song.originalName, props.song.docId)
 
-		const storageRef = refStorage(storage, `/songs/${props.song.originalName}`)
-
-		await remove(storageRef)
-			.then(async () => {
-				await deleteDoc(docRef)
-				props.deleteSong(props.i)
-			})
-			.catch((err: any) => {
-				console.log(err)
-			})
+		props.deleteSong(props.i)
 	}
 </script>
