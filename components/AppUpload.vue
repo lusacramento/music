@@ -22,6 +22,13 @@
 			>
 				<h5>Drop your files here</h5>
 			</div>
+			<input
+				type="file"
+				name="upload-songs"
+				id="upload-songs"
+				multiple
+				@change="upload($event)"
+			/>
 			<hr class="my-6" />
 			<!-- Progess Bars -->
 			<div class="mb-4" v-for="upload in uploads" :key="upload.name">
@@ -45,11 +52,24 @@
 
 <script lang="ts" setup>
 	import {
+		faTasks,
+		type faSuitcaseRolling,
+	} from '@fortawesome/free-solid-svg-icons'
+	import {
+		collection,
+		doc,
+		initializeFirestore,
+		setDoc,
+	} from 'firebase/firestore'
+	import {
 		getStorage,
 		uploadBytesResumable,
 		ref as reference,
 		type UploadTask,
+		getDownloadURL,
 	} from 'firebase/storage'
+
+	import type { SongDetails } from '~/composables/songDetail'
 
 	interface upLoad {
 		task: UploadTask
@@ -67,16 +87,19 @@
 
 	const item = { task: null, currentProgress: 0, name: '' }
 
+	const nuxtApp = useNuxtApp()
+	const app = nuxtApp.$app
+	const auth = nuxtApp.$auth
+
 	function upload($event: any) {
 		// isDragover.value = false
 
-		const files = [...$event.dataTransfer.files]
+		const files = $event.dataTransfer
+			? [...$event.dataTransfer.files]
+			: [...$event.target.files]
 
 		files.forEach(async (file) => {
 			if (!isAudioFile(file.type)) return
-
-			const nuxtApp = useNuxtApp()
-			const app = nuxtApp.$app
 
 			const storage = getStorage(app)
 			const storageRef = reference(storage, `songs/${file.name}`)
@@ -113,7 +136,19 @@
 						uploadIndex
 					].name = `Error. The "${file.name}" file size may be too large.`
 				},
-				() => {
+				async () => {
+					const song: SongDetails = await {
+						uid: auth.currentUser?.uid,
+						displayName: auth.currentUser?.displayName,
+						originalName: task.snapshot.ref.name,
+						modifiedName: task.snapshot.ref.name,
+						genre: '',
+						commentCount: 0,
+						url: await getDownloadURL((await task).ref),
+					}
+
+					postSongDetail(song, task)
+
 					uploads.value[uploadIndex].variant = 'bg-green-400'
 					uploads.value[uploadIndex].icon = 'fa fa-check'
 					uploads.value[uploadIndex].textClass = 'text-green-400	'
@@ -129,6 +164,31 @@
 	function isAudioFile(file: any) {
 		return file === 'audio/mpeg'
 	}
+
+	async function postSongDetail(song: SongDetails, task: any) {
+		try {
+			const store = initializeFirestore(app, {})
+			const colection = collection(store, 'songs')
+
+			const docRef = doc(colection)
+
+			await setDoc(docRef, song)
+		} catch (error) {
+			// const user = getUser()
+			// deleteUser(userResponse)
+			return error
+		}
+	}
+
+	const cancelUploads = function () {
+		uploads.value.forEach((upload) => {
+			upload.task.cancel()
+		})
+	}
+
+	defineExpose({
+		cancelUploads,
+	})
 </script>
 
 <style></style>
