@@ -9,6 +9,8 @@ import {
 	faUpload,
 	faCompactDisc,
 	faPencilAlt,
+	faSpinner,
+	faCheck,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -20,6 +22,8 @@ library.add(
 	faUpload,
 	faCompactDisc,
 	faPencilAlt,
+	faSpinner,
+	faCheck,
 )
 
 // This is important, we are going to let Nuxt worry about the CSS
