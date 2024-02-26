@@ -6,6 +6,7 @@ import {
 	where,
 	deleteDoc,
 	doc,
+	updateDoc,
 } from 'firebase/firestore'
 
 import {
@@ -36,7 +37,9 @@ function addSong(file: any) {
 	return uploadBytesResumable(storageRef, file)
 }
 
-function alterSong() {}
+async function alterSong(id: string, values: {}) {
+	return await updateDoc(getDocRefById(id), values)
+}
 
 async function deleteSong(originalName: string, id: string) {
 	const storageRef = ref(storage, `/songs/${originalName}`)

@@ -74,24 +74,10 @@
 
 <script lang="ts" setup>
 	import {
-		collection,
-		doc,
-		initializeFirestore,
-		updateDoc,
-		deleteDoc,
-	} from 'firebase/firestore'
-
-	import {
 		Form as VeeForm,
 		Field as VeeField,
 		ErrorMessage as VeeErrorMessage,
 	} from 'vee-validate'
-
-	import {
-		deleteObject as remove,
-		getStorage,
-		ref as refStorage,
-	} from 'firebase/storage'
 
 	const props = defineProps({
 		song: { type: Object, required: true },
@@ -100,12 +86,6 @@
 		deleteSong: { type: Function, required: true },
 		updateUnsavedFlag: { type: Function, required: true },
 	})
-
-	const app = useNuxtApp().$app
-	const store = initializeFirestore(app, {})
-	const colection = collection(store, 'songs')
-
-	const docRef = doc(colection, props.song.docId)
 
 	const song = ref({
 		modifiedName: props.song.modifiedName,
@@ -135,16 +115,15 @@
 		alertMsg.value = 'Please wait! Updating song info.'
 
 		try {
-			await updateDoc(docRef, values)
+			await useISong().alterSong(props.song.docId, values)
+			props.updateSong(props.i, values)
+			props.updateUnsavedFlag(false)
 		} catch (error) {
 			inSubmission.value = false
 			alertVariant.value = 'bg-red-500'
 			alertMsg.value = 'Something went wrong! Try again later'
 			return
 		}
-
-		props.updateSong(props.i, values)
-		props.updateUnsavedFlag(false)
 
 		inSubmission.value = false
 		alertVariant.value = 'bg-green-500'
