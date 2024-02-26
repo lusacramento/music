@@ -51,13 +51,6 @@
 </template>
 
 <script lang="ts" setup>
-	import {
-		collection,
-		doc,
-		initializeFirestore,
-		setDoc,
-		getDoc,
-	} from 'firebase/firestore'
 	import { type UploadTask, getDownloadURL } from 'firebase/storage'
 
 	import type { SongDetails } from '~/composables/songDetail'
@@ -80,14 +73,11 @@
 
 	const isDragover = ref(false)
 
-	const item = { task: null, currentProgress: 0, name: '' }
-
 	const nuxtApp = useNuxtApp()
-	const app = nuxtApp.$app
 	const auth = nuxtApp.$auth
 
 	function upload($event: any) {
-		// isDragover.value = false
+		isDragover.value = false
 
 		const files = $event.dataTransfer
 			? [...$event.dataTransfer.files]
@@ -124,16 +114,16 @@
 				},
 				async () => {
 					const song: SongDetails = await {
-						uid: auth.currentUser?.uid,
-						displayName: auth.currentUser?.displayName,
-						originalName: task.snapshot.ref.name,
-						modifiedName: task.snapshot.ref.name,
+						uid: await auth.currentUser?.uid,
+						displayName: await auth.currentUser?.displayName,
+						originalName: await task.snapshot.ref.name,
+						modifiedName: await task.snapshot.ref.name,
 						genre: '',
 						commentCount: 0,
 						url: await getDownloadURL((await task).ref),
 					}
 
-					postSongDetail(song, task)
+					await postSongDetail(song)
 
 					showSuccessMessage(uploadIndex, file.name)
 				},
@@ -145,17 +135,13 @@
 		return file === 'audio/mpeg'
 	}
 
-	async function postSongDetail(song: SongDetails, task: any) {
+	async function postSongDetail(song: SongDetails) {
 		try {
-			const store = initializeFirestore(app, {})
-			const colection = collection(store, 'songs')
+			const songRef = await useISong().addDetailsSong(song)
 
-			const docRef = doc(colection)
+			const songSnapshot = await useISong().getSong(songRef)
 
-			const songRef = await setDoc(docRef, song)
-			const songSnapshot = await getDoc(docRef)
-
-			props.addSong(songSnapshot)
+			await props.addSong(songSnapshot)
 		} catch (error) {
 			// const user = getUser()
 			// deleteUser(userResponse)

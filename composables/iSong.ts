@@ -7,6 +7,9 @@ import {
 	deleteDoc,
 	doc,
 	updateDoc,
+	setDoc,
+	getDoc,
+	addDoc,
 } from 'firebase/firestore'
 
 import {
@@ -23,6 +26,7 @@ const auth = useNuxtApp().$auth
 
 const store = initializeFirestore(app, {})
 const colection = collection(store, 'songs')
+const docRef = doc(colection)
 
 const queryById = query(colection, where('uid', '==', auth.currentUser?.uid))
 
@@ -35,6 +39,10 @@ async function getSongs() {
 function addSong(file: any) {
 	const storageRef = ref(storage, `songs/${file.name}`)
 	return uploadBytesResumable(storageRef, file)
+}
+
+async function addDetailsSong(song: SongDetails) {
+	return addDoc(colection, song)
 }
 
 async function alterSong(id: string, values: {}) {
@@ -57,11 +65,17 @@ function getDocRefById(id: string) {
 	return doc(colection, id)
 }
 
+function getSong(docRef: any) {
+	return getDoc(docRef)
+}
+
 export const useISong = () => {
 	return {
 		getSongs,
 		addSong,
+		addDetailsSong,
 		alterSong,
 		deleteSong,
+		getSong,
 	}
 }
