@@ -71,7 +71,6 @@
 </template>
 
 <script lang="ts" setup>
-<<<<<<< HEAD
 	definePageMeta({
 		middleware: [function (to, from) {}, 'auth'],
 	})
@@ -79,7 +78,6 @@
 	useSeoMeta({
 		title: 'Music - Manage',
 	})
-=======
 	// definePageMeta({
 	// 	middleware: [function (to, from) {}, 'auth'],
 	// })
@@ -150,5 +148,4 @@
 	function updateUnsavedFlag(isUnsaved: boolean) {
 		unsavedFlag = isUnsaved
 	}
->>>>>>> feature/upload
 </script>
