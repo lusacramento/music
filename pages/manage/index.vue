@@ -125,8 +125,8 @@
 	}
 
 	function updateSong(this: any, i: string, song: any) {
-		this.songs.value[i].modifiedName = songs.value[i].modifiedName
-		this.songs.value[i].genre = songs.value[i].genre
+		songs.value[i].modifiedName = song.modifiedName
+		songs.value[i].genre = song.genre
 	}
 
 	function deleteSong(i: number) {
