@@ -32,7 +32,7 @@ const queryById = query(colection, where('uid', '==', auth.currentUser?.uid))
 
 const storage = getStorage(app)
 
-async function getSongs() {
+async function getSongsById() {
 	return await getDocs(queryById)
 }
 
@@ -71,7 +71,7 @@ function getSong(docRef: any) {
 
 export const useISong = () => {
 	return {
-		getSongs,
+		getSongsById,
 		addSong,
 		addDetailsSong,
 		alterSong,

@@ -89,7 +89,7 @@
 	const songs: any = ref([])
 
 	// const snapshot = await getDocs(queryById)
-	const snapshot = await useISong().getSongs()
+	const snapshot = await useISong().getSongsById()
 
 	snapshot.forEach((doc) => {
 		addSong(doc)
