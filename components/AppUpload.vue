@@ -121,6 +121,7 @@
 						genre: '',
 						commentCount: 0,
 						url: await getDownloadURL((await task).ref),
+						created: new Date(),
 					}
 
 					await postSongDetail(song)

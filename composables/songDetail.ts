@@ -6,4 +6,5 @@ export interface SongDetails {
 	genre: string
 	commentCount: number
 	url: string
+	created: Date
 }
