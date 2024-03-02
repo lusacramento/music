@@ -15,208 +15,26 @@
 				</div>
 				<!-- Playlist -->
 				<ol id="playlist">
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
-					<li
-						class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-					>
-						<div>
-							<a href="#" class="font-bold block text-gray-600">Song Title</a>
-							<span class="text-gray-500 text-sm">Artist Name</span>
-						</div>
-
-						<div class="text-gray-600 text-lg">
-							<span class="comments">
-								<AppIcon icon="fa fa-comments" class="text-gray-600" />
-								15
-							</span>
-						</div>
-					</li>
+					<SongItem v-for="song in songs" :key="song.id" :song="song" />
 				</ol>
+				<button
+					type="button"
+					v-if="isMoreSongs"
+					@click.prevent="getMoreSongs"
+					class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700"
+				>
+					Get More...
+				</button>
+
 				<!-- .. end Playlist -->
 			</div>
 		</section>
 
 		<!-- Player -->
-		<div class="fixed bottom-0 left-0 bg-white px-4 py-2 w-full">
+		<div
+			class="fixed bottom-0 left-0 bg-white px-4 py-2 w-full"
+			style="display: none"
+		>
 			<!-- Track Info -->
 			<div class="text-center">
 				<span class="song-title font-bold">Song Title</span> by
@@ -252,9 +70,109 @@
 </template>
 
 <script lang="ts" setup>
+	definePageMeta({
+		middleware: [function (to, from) {}, 'homepage'],
+	})
+
+	import {
+		Query,
+		collection,
+		doc,
+		getDoc,
+		getDocs,
+		initializeFirestore,
+		getFirestore,
+		limit,
+		query,
+		startAfter,
+		orderBy,
+		limitToLast,
+	} from 'firebase/firestore'
+
 	useSeoMeta({
 		title: 'Music - Home Page',
 	})
-</script>
 
-<style></style>
+	const isMoreSongs = ref(false)
+
+	let lastSongId = ''
+	let lastLoadedSongId = ''
+
+	const app = useNuxtApp().$app
+
+	const songs: any = ref([])
+	const limitFiles = 3
+
+	try {
+		const store = initializeFirestore(app, {})
+		const collectionRef = collection(store, 'songs')
+		const queryRef = query(collectionRef, limit(limitFiles))
+
+		await getSongs(queryRef).then(async (snapshot) => {
+			if (!snapshot.empty) {
+				snapshot.forEach((doc: any) => {
+					addSong(doc)
+				})
+
+				lastSongId = songs.docIdLast = await getLastSongId()
+				isMoreSongs.value = existsMoreSongs(lastSongId, lastLoadedSongId)
+			}
+		})
+	} catch (error) {
+		console.log(error)
+	}
+
+	async function getMoreSongs() {
+		const loadedLastId = songs.value[songs.value.length - 1].id
+
+		const store = getFirestore(app)
+		const collectionRef = collection(store, 'songs')
+		const lastDocRef = doc(collectionRef, loadedLastId)
+
+		const lastDoc = await getDoc(lastDocRef)
+		const queryRef = query(
+			collectionRef,
+			limit(limitFiles),
+			startAfter(lastDoc),
+		)
+
+		const snapshot = await getSongs(queryRef)
+		snapshot.forEach((doc: any) => {
+			addSong(doc)
+			isMoreSongs.value = existsMoreSongs(lastSongId, lastLoadedSongId)
+		})
+	}
+
+	async function getSongs(queryRef: Query) {
+		return await getDocs(queryRef)
+	}
+
+	async function getLastSongId() {
+		let id = ''
+		const store = getFirestore(app)
+		const collectionRef = collection(store, 'songs')
+		const queryRef = query(
+			collectionRef,
+			orderBy('__name__', 'asc'),
+			limitToLast(1),
+		)
+
+		await getDocs(queryRef).then((snapshot) => {
+			id = !snapshot.empty ? snapshot.docs[0].id : ''
+		})
+		return id
+	}
+
+	function existsMoreSongs(lastSongId: string, lastLoadedSongId: string) {
+		return lastSongId !== lastLoadedSongId
+	}
+
+	function addSong(doc: any) {
+		const song = {
+			...doc.data(),
+			id: doc.id,
+		}
+		songs.value.push(song)
+		lastLoadedSongId = songs.value[songs.value.length - 1].id
+	}
+</script>
