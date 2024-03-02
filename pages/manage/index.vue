@@ -78,9 +78,6 @@
 	useSeoMeta({
 		title: 'Music - Manage',
 	})
-	// definePageMeta({
-	// 	middleware: [function (to, from) {}, 'auth'],
-	// })
 
 	import Upload from '@/components/AppUpload.vue'
 
@@ -88,7 +85,6 @@
 
 	const songs: any = ref([])
 
-	// const snapshot = await getDocs(queryById)
 	const snapshot = await useISong().getSongsById()
 
 	snapshot.forEach((doc) => {
