@@ -13,24 +13,21 @@
 						class="float-right text-green-400 text-xl"
 					/>
 				</div>
-				<!-- Playlist -->
 				<ol id="playlist">
-					<SongItem v-for="song in songs" :key="song.id" :song="song" />
+					<ClientOnly>
+						<SongItem v-for="song in songs" :key="song.id" :song="song" />
+					</ClientOnly>
 				</ol>
 				<button
 					type="button"
-					v-if="isMoreSongs"
-					@click.prevent="getMoreSongs"
 					class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700"
+					@click.prevent="getMoreSongs"
+					v-if="isMoreSongs"
 				>
 					Get More...
 				</button>
-
-				<!-- .. end Playlist -->
 			</div>
 		</section>
-
-		<!-- Player -->
 		<div
 			class="fixed bottom-0 left-0 bg-white px-4 py-2 w-full"
 			style="display: none"
@@ -70,9 +67,9 @@
 </template>
 
 <script lang="ts" setup>
-	definePageMeta({
-		middleware: [function (to, from) {}, 'homepage'],
-	})
+	// definePageMeta({
+	// 	middleware: [function (to, from) {}, 'homepage'],
+	// })
 
 	import {
 		Query,
@@ -93,7 +90,7 @@
 		title: 'Music - Home Page',
 	})
 
-	const isMoreSongs = ref(false)
+	const isMoreSongs = ref(true)
 
 	let lastSongId = ''
 	let lastLoadedSongId = ''
@@ -115,7 +112,7 @@
 				})
 
 				lastSongId = songs.docIdLast = await getLastSongId()
-				isMoreSongs.value = existsMoreSongs(lastSongId, lastLoadedSongId)
+				isMoreSongs.value = await existsMoreSongs(lastSongId, lastLoadedSongId)
 			}
 		})
 	} catch (error) {
