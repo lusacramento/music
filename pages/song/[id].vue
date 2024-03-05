@@ -65,9 +65,10 @@
 					<!-- Sort Comments -->
 					<select
 						class="block mt-4 py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
+						v-model="order"
 					>
-						<option value="1">Latest</option>
-						<option value="2">Oldest</option>
+						<option value="true">Latest</option>
+						<option value="false">Oldest</option>
 					</select>
 				</div>
 			</div>
@@ -139,6 +140,7 @@
 		query,
 		where,
 		getDocs,
+		orderBy,
 	} from 'firebase/firestore'
 
 	import {
@@ -146,6 +148,10 @@
 		Field as VeeField,
 		ErrorMessage as VeeErrorMessage,
 	} from 'vee-validate'
+
+	definePageMeta({
+		middleware: [function (to, from) {}, 'auth'],
+	})
 
 	const schema = {
 		comment: 'required|min:3|max:300|alpha-spaces',
@@ -163,22 +169,40 @@
 
 	const id = route.params.id as string | undefined
 	const song: Ref<any> = ref({})
-	const comments: any[] = []
-	getComments()
+	const comments: Ref<any[]> = ref([])
+	let order = ref(true)
 
-	const isLoggedIn = useMyUserStore().isLoggedIn
+	watch(order, () => {
+		invertOrder()
+	})
 
-	try {
-		const store = initializeFirestore(app, {})
-		const collectionRef = collection(store, 'songs')
-		const docRef = doc(collectionRef, id)
+	const isLoggedIn = await useMyUserStore().isLoggedIn
+	await getSong()
+	await getComments()
 
-		await getDoc(docRef).then((docSnap) => {
-			!docSnap.exists()
-				? router.push('/')
-				: (song.value = { ...docSnap.data() })
-		})
-	} catch (error) {}
+	// computed(() => {
+	// 	const sortedComments = function () {
+	// 		return comments.value.slice().sort((a: Object, b: Object) => {
+	// 			if (sort.value === 1) {
+	// 				return new Date(b.datePosted) - new Date(a.datePosted)
+	// 			}
+	// 		})
+	// 	}
+	// })
+
+	async function getSong() {
+		try {
+			const store = initializeFirestore(app, {})
+			const collectionRef = collection(store, 'songs')
+			const docRef = doc(collectionRef, id)
+
+			await getDoc(docRef).then((docSnap) => {
+				!docSnap.exists()
+					? router.push('/')
+					: (song.value = { ...docSnap.data() })
+			})
+		} catch (error) {}
+	}
 
 	async function addComment(values: any, { resetForm }: any) {
 		comment_in_submission.value = true
@@ -187,7 +211,7 @@
 		comment_alert_variant.value = 'bg-blue-500'
 		comment_alert_msg.value = 'Please wait! Your comment is being submitted'
 
-		const now = new Date().toString()
+		const now = new Date()
 
 		const comment = {
 			content: values.comment,
@@ -197,18 +221,19 @@
 			uid: auth.currentUser?.uid,
 		}
 
-		// try {
-		// 	const store = getFirestore(app)
-		// 	const collectionRef = collection(store, 'comments')
+		try {
+			const store = getFirestore(app)
+			const collectionRef = collection(store, 'comments')
 
-		// 	await addDoc(collectionRef, comment).then((snapshot) => {
-		// 		comment_in_submission.value = false
-		// 		showSuccessMessage()
-		// 		resetForm()
-		// 	})
-		// } catch (error) {
-		// 	console.log(error)
-		// }
+			await addDoc(collectionRef, comment).then(async (snapshot) => {
+				comment_in_submission.value = false
+				showSuccessMessage()
+				await comments.value.push(comment)
+				resetForm()
+			})
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	function showSuccessMessage() {
@@ -220,21 +245,32 @@
 		try {
 			const store = getFirestore(app)
 			const collectionRef = collection(store, 'comments')
-			const queryRef = query(collectionRef, where('sid', '==', id))
+			const queryRef = query(
+				collectionRef,
+				where('sid', '==', id),
+				orderBy('datePosted', 'desc'),
+			)
 
 			await getDocs(queryRef).then((snapshot) => {
-				snapshot.forEach((doc) => {
-					comments.push({
+				snapshot.forEach(async (doc) => {
+					const currentComment: any = await {
 						id: doc.id,
 						...doc.data(),
+					}
+					currentComment.datePosted = new Date(currentComment.datePosted * 1000)
+					comments.value.push({
+						...currentComment,
 					})
 				})
-
-				console.log(comments)
 			})
 		} catch (error) {
 			console.log(error)
 		}
+		console.log(comments.value)
+	}
+
+	function invertOrder() {
+		comments.value = comments.value.reverse()
 	}
 
 	// function showErrorMessage(error: any) {
