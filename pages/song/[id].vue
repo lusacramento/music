@@ -181,16 +181,6 @@
 	await getSong()
 	await getComments()
 
-	// computed(() => {
-	// 	const sortedComments = function () {
-	// 		return comments.value.slice().sort((a: Object, b: Object) => {
-	// 			if (sort.value === 1) {
-	// 				return new Date(b.datePosted) - new Date(a.datePosted)
-	// 			}
-	// 		})
-	// 	}
-	// })
-
 	async function getSong() {
 		try {
 			const store = initializeFirestore(app, {})
@@ -232,9 +222,7 @@
 				await comments.value.push(comment)
 				resetForm()
 			})
-		} catch (error) {
-			console.log(error)
-		}
+		} catch (error) {}
 	}
 
 	function showSuccessMessage() {
@@ -273,13 +261,13 @@
 		comments.value = comments.value.reverse()
 	}
 
-	// function showErrorMessage(error: any) {
-	// 	comment_alert_variant.value = 'bg-red-500'
+	function showErrorMessage(error: any) {
+		comment_alert_variant.value = 'bg-red-500'
 
-	// 	const messengeErrorResponse = error.customData._tokenResponse.error.message
-	// 	messengeErrorResponse === 'EMAIL_EXISTS'
-	// 		? (comment_alert_msg.value = 'This email is already commentistered!')
-	// 		: (comment_alert_msg.value =
-	// 				'An unexpected error occured. Please try again later.')
-	// }
+		const messengeErrorResponse = error.customData._tokenResponse.error.message
+		messengeErrorResponse === 'EMAIL_EXISTS'
+			? (comment_alert_msg.value = 'This email is already commentistered!')
+			: (comment_alert_msg.value =
+					'An unexpected error occured. Please try again later.')
+	}
 </script>
