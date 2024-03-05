@@ -152,7 +152,7 @@
 	} from 'vee-validate'
 
 	definePageMeta({
-		middleware: [function (to, from) {}, 'auth'],
+		middleware: [function (to, from) {}, 'not-auth'],
 	})
 
 	const schema = {
