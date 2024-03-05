@@ -74,82 +74,26 @@
 		</section>
 		<!-- Comments -->
 		<ul class="container mx-auto">
-			<li class="p-6 bg-gray-50 border border-gray-200">
+			<li
+				class="p-6 bg-gray-50 border border-gray-200"
+				v-for="comment in comments"
+				:key="comment.id"
+			>
 				<!-- Comment Author -->
 				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
+					<div class="font-bold">{{ comment.auth }}</div>
+					<time>{{ comment.datePosted }}</time>
 				</div>
 
-				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
-				</p>
-			</li>
-			<li class="p-6 bg-gray-50 border border-gray-200">
-				<!-- Comment Author -->
-				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
-				</div>
-
-				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
-				</p>
-			</li>
-			<li class="p-6 bg-gray-50 border border-gray-200">
-				<!-- Comment Author -->
-				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
-				</div>
-
-				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
-				</p>
-			</li>
-			<li class="p-6 bg-gray-50 border border-gray-200">
-				<!-- Comment Author -->
-				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
-				</div>
-
-				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
-				</p>
-			</li>
-			<li class="p-6 bg-gray-50 border border-gray-200">
-				<!-- Comment Author -->
-				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
-				</div>
-
-				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
-				</p>
-			</li>
-			<li class="p-6 bg-gray-50 border border-gray-200">
-				<!-- Comment Author -->
-				<div class="mb-5">
-					<div class="font-bold">Elaine Dreyfuss</div>
-					<time>5 mins ago</time>
-				</div>
-
-				<p>
-					Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-					accusantium der doloremque laudantium.
-				</p>
+				<p>{{ comment.content }}</p>
 			</li>
 		</ul>
 
 		<!-- Player -->
-		<div class="fixed bottom-0 left-0 bg-white px-4 py-2 w-full">
+		<div
+			class="fixed bottom-0 left-0 bg-white px-4 py-2 w-full"
+			style="display: none"
+		>
 			<!-- Track Info -->
 			<div class="text-center">
 				<span class="song-title font-bold">Song Title</span> by
@@ -192,6 +136,9 @@
 		getDoc,
 		getFirestore,
 		addDoc,
+		query,
+		where,
+		getDocs,
 	} from 'firebase/firestore'
 
 	import {
@@ -216,6 +163,8 @@
 
 	const id = route.params.id as string | undefined
 	const song: Ref<any> = ref({})
+	const comments: any[] = []
+	getComments()
 
 	const isLoggedIn = useMyUserStore().isLoggedIn
 
@@ -238,31 +187,54 @@
 		comment_alert_variant.value = 'bg-blue-500'
 		comment_alert_msg.value = 'Please wait! Your comment is being submitted'
 
+		const now = new Date().toString()
+
 		const comment = {
 			content: values.comment,
-			datePosted: new Date().toDateString(),
+			datePosted: now,
 			sid: id,
 			auth: auth.currentUser?.displayName,
 			uid: auth.currentUser?.uid,
 		}
 
-		try {
-			const store = getFirestore(app)
-			const collectionRef = collection(store, 'comments')
+		// try {
+		// 	const store = getFirestore(app)
+		// 	const collectionRef = collection(store, 'comments')
 
-			await addDoc(collectionRef, comment).then((snapshot) => {
-				comment_in_submission.value = false
-				showSuccessMessage()
-				resetForm()
-			})
-		} catch (error) {
-			console.log(error)
-		}
+		// 	await addDoc(collectionRef, comment).then((snapshot) => {
+		// 		comment_in_submission.value = false
+		// 		showSuccessMessage()
+		// 		resetForm()
+		// 	})
+		// } catch (error) {
+		// 	console.log(error)
+		// }
 	}
 
 	function showSuccessMessage() {
 		comment_alert_variant.value = 'bg-green-500'
 		comment_alert_msg.value = 'Comment added!'
+	}
+
+	async function getComments() {
+		try {
+			const store = getFirestore(app)
+			const collectionRef = collection(store, 'comments')
+			const queryRef = query(collectionRef, where('sid', '==', id))
+
+			await getDocs(queryRef).then((snapshot) => {
+				snapshot.forEach((doc) => {
+					comments.push({
+						id: doc.id,
+						...doc.data(),
+					})
+				})
+
+				console.log(comments)
+			})
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	// function showErrorMessage(error: any) {
