@@ -222,7 +222,9 @@
 				await comments.value.push(comment)
 				resetForm()
 			})
-		} catch (error) {}
+		} catch (error) {
+			showErrorMessage(error)
+		}
 	}
 
 	function showSuccessMessage() {
@@ -263,11 +265,7 @@
 
 	function showErrorMessage(error: any) {
 		comment_alert_variant.value = 'bg-red-500'
-
-		const messengeErrorResponse = error.customData._tokenResponse.error.message
-		messengeErrorResponse === 'EMAIL_EXISTS'
-			? (comment_alert_msg.value = 'This email is already commentistered!')
-			: (comment_alert_msg.value =
-					'An unexpected error occured. Please try again later.')
+		comment_alert_msg.value =
+			'An unexpected error occured. Please try again later.'
 	}
 </script>
