@@ -16,8 +16,10 @@
 				</button>
 				<div class="z-50 text-left ml-8">
 					<!-- Song Info -->
-					<div class="text-3xl font-bold">{{ song.modifiedName }}</div>
-					<div>{{ song.genre }}</div>
+					<ClientOnly>
+						<div class="text-3xl font-bold">{{ song.modifiedName }}</div>
+						<div>{{ song.genre }}</div>
+					</ClientOnly>
 				</div>
 			</div>
 		</section>
@@ -28,7 +30,9 @@
 			>
 				<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
 					<!-- Comment Count -->
-					<span class="card-title">Comments {{ comments.length }}</span>
+					<ClientOnly>
+						<span class="card-title">Comments {{ comments.length }}</span>
+					</ClientOnly>
 					<AppIcon
 						icon="fa-comments"
 						class="float-right text-green-400 text-2xl"
@@ -76,19 +80,21 @@
 		</section>
 		<!-- Comments -->
 		<ul class="container mx-auto">
-			<li
-				class="p-6 bg-gray-50 border border-gray-200"
-				v-for="comment in comments"
-				:key="comment.id"
-			>
-				<!-- Comment Author -->
-				<div class="mb-5">
-					<div class="font-bold">{{ comment.auth }}</div>
-					<time>{{ comment.datePosted }}</time>
-				</div>
+			<ClientOnly>
+				<li
+					class="p-6 bg-gray-50 border border-gray-200"
+					v-for="comment in comments"
+					:key="comment.id"
+				>
+					<!-- Comment Author -->
+					<div class="mb-5">
+						<div class="font-bold">{{ comment.auth }}</div>
+						<time>{{ comment.datePosted }}</time>
+					</div>
 
-				<p>{{ comment.content }}</p>
-			</li>
+					<p>{{ comment.content }}</p>
+				</li>
+			</ClientOnly>
 		</ul>
 
 		<!-- Player -->
