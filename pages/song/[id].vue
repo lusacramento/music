@@ -35,18 +35,33 @@
 					/>
 				</div>
 				<div class="p-6">
-					<form>
-						<textarea
+					<div
+						v-if="comment_show_alert"
+						class="text-white text-center font-bold p-4 mb-4"
+						:class="comment_alert_variant"
+					>
+						{{ comment_alert_msg }}
+					</div>
+					<VeeForm
+						v-if="isLoggedIn"
+						:validation-schema="schema"
+						@submit="addComment"
+					>
+						<VeeField
+							as="textarea"
+							name="comment"
 							class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded mb-4"
 							placeholder="Your comment here..."
-						></textarea>
+						/>
+						<ErrorMessage class="text-red-600" name="comment" />
 						<button
 							type="submit"
 							class="py-1.5 px-3 rounded text-white bg-green-600 block"
+							:disabled="comment_in_submission"
 						>
 							Submit
 						</button>
-					</form>
+					</VeeForm>
 					<!-- Sort Comments -->
 					<select
 						class="block mt-4 py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
@@ -175,14 +190,34 @@
 		initializeFirestore,
 		doc,
 		getDoc,
+		getFirestore,
+		addDoc,
 	} from 'firebase/firestore'
+
+	import {
+		Form as VeeForm,
+		Field as VeeField,
+		ErrorMessage as VeeErrorMessage,
+	} from 'vee-validate'
+
+	const schema = {
+		comment: 'required|min:3|max:300|alpha-spaces',
+	}
+
+	const comment_in_submission = ref(false)
+	const comment_show_alert = ref(false)
+	const comment_alert_variant = ref('bg-blue-500')
+	const comment_alert_msg = ref('Please wait! Your comment is being submitted.')
 
 	const route = useRoute()
 	const router = useRouter()
 	const app = useNuxtApp().$app
+	const auth = useNuxtApp().$auth
 
 	const id = route.params.id as string | undefined
 	const song: Ref<any> = ref({})
+
+	const isLoggedIn = useMyUserStore().isLoggedIn
 
 	try {
 		const store = initializeFirestore(app, {})
@@ -195,4 +230,48 @@
 				: (song.value = { ...docSnap.data() })
 		})
 	} catch (error) {}
+
+	async function addComment(values: any, { resetForm }: any) {
+		comment_in_submission.value = true
+		comment_show_alert.value = true
+
+		comment_alert_variant.value = 'bg-blue-500'
+		comment_alert_msg.value = 'Please wait! Your comment is being submitted'
+
+		const comment = {
+			content: values.comment,
+			datePosted: new Date().toDateString(),
+			sid: id,
+			auth: auth.currentUser?.displayName,
+			uid: auth.currentUser?.uid,
+		}
+
+		try {
+			const store = getFirestore(app)
+			const collectionRef = collection(store, 'comments')
+
+			await addDoc(collectionRef, comment).then((snapshot) => {
+				comment_in_submission.value = false
+				showSuccessMessage()
+				resetForm()
+			})
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	function showSuccessMessage() {
+		comment_alert_variant.value = 'bg-green-500'
+		comment_alert_msg.value = 'Comment added!'
+	}
+
+	// function showErrorMessage(error: any) {
+	// 	comment_alert_variant.value = 'bg-red-500'
+
+	// 	const messengeErrorResponse = error.customData._tokenResponse.error.message
+	// 	messengeErrorResponse === 'EMAIL_EXISTS'
+	// 		? (comment_alert_msg.value = 'This email is already commentistered!')
+	// 		: (comment_alert_msg.value =
+	// 				'An unexpected error occured. Please try again later.')
+	// }
 </script>
