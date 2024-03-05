@@ -267,7 +267,6 @@
 		} catch (error) {
 			console.log(error)
 		}
-		console.log(comments.value)
 	}
 
 	function invertOrder() {
