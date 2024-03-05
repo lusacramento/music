@@ -141,6 +141,7 @@
 		where,
 		getDocs,
 		orderBy,
+		serverTimestamp,
 	} from 'firebase/firestore'
 
 	import {
@@ -211,7 +212,7 @@
 		comment_alert_variant.value = 'bg-blue-500'
 		comment_alert_msg.value = 'Please wait! Your comment is being submitted'
 
-		const now = new Date()
+		const now = serverTimestamp()
 
 		const comment = {
 			content: values.comment,
