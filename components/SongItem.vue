@@ -3,9 +3,9 @@
 		class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
 	>
 		<div>
-			<a href="#" class="font-bold block text-gray-600">
+			<NuxtLink :to="songUrl" class="font-bold block text-gray-600">
 				{{ song.modifiedName }}
-			</a>
+			</NuxtLink>
 			<span class="text-gray-500 text-sm">
 				{{ song.displayName }} - {{ song.id }}
 			</span>
@@ -29,6 +29,8 @@
 			...props.song,
 		})
 	})
+
+	const songUrl = `/song/${props.song.id}`
 </script>
 
 <style></style>

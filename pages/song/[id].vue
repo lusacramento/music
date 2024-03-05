@@ -1,28 +1,5 @@
 <template>
 	<div>
-		<!-- Header
-		<header id="header" class="bg-gray-700">
-			<nav class="container mx-auto flex justify-start items-center py-5 px-4">
-				App Name
-				<a class="text-white font-bold uppercase text-2xl mr-4" href="#"
-					>Music</a
-				>
-
-				<div class="flex flex-grow items-center">
-					Primary Navigation
-					<ul class="flex flex-row mt-1">
-						Navigation Links
-						<li>
-							<a class="px-2 text-white" href="#">Login / Register</a>
-						</li>
-						<li>
-							<a class="px-2 text-white" href="#">Manage</a>
-						</li>
-					</ul>
-				</div>
-			</nav>
-		</header> -->
-
 		<!-- Music Header -->
 		<section class="w-full mb-8 py-14 text-center text-white relative">
 			<div
@@ -39,8 +16,8 @@
 				</button>
 				<div class="z-50 text-left ml-8">
 					<!-- Song Info -->
-					<div class="text-3xl font-bold">Song Title</div>
-					<div>Blues Rock</div>
+					<div class="text-3xl font-bold">{{ song.modifiedName }}</div>
+					<div>{{ song.genre }}</div>
 				</div>
 			</div>
 		</section>
@@ -192,6 +169,30 @@
 	</div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+	import {
+		collection,
+		initializeFirestore,
+		doc,
+		getDoc,
+	} from 'firebase/firestore'
 
-<style></style>
+	const route = useRoute()
+	const router = useRouter()
+	const app = useNuxtApp().$app
+
+	const id = route.params.id as string | undefined
+	const song: Ref<any> = ref({})
+
+	try {
+		const store = initializeFirestore(app, {})
+		const collectionRef = collection(store, 'songs')
+		const docRef = doc(collectionRef, id)
+
+		await getDoc(docRef).then((docSnap) => {
+			!docSnap.exists()
+				? router.push('/')
+				: (song.value = { ...docSnap.data() })
+		})
+	} catch (error) {}
+</script>
