@@ -31,7 +31,7 @@
 				<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
 					<!-- Comment Count -->
 					<ClientOnly>
-						<span class="card-title">Comments {{ comments.length }}</span>
+						<span class="card-title">Comments ({{ song.commentCount }}) </span>
 					</ClientOnly>
 					<AppIcon
 						icon="fa-comments"
@@ -137,6 +137,7 @@
 </template>
 
 <script lang="ts" setup>
+	import { set } from 'firebase/database'
 	import {
 		collection,
 		initializeFirestore,
@@ -149,6 +150,7 @@
 		getDocs,
 		orderBy,
 		serverTimestamp,
+		updateDoc,
 	} from 'firebase/firestore'
 
 	import {
@@ -224,14 +226,30 @@
 			const collectionRef = collection(store, 'comments')
 
 			await addDoc(collectionRef, comment).then(async (snapshot) => {
-				comment_in_submission.value = false
-				showSuccessMessage()
+				await updateCommentsCounter()
+
 				await comments.value.push(comment)
+
 				resetForm()
+				comment_in_submission.value = false
+
+				showSuccessMessage()
 			})
 		} catch (error) {
 			showErrorMessage(error)
 		}
+	}
+
+	async function updateCommentsCounter() {
+		song.value.commentCount++
+
+		try {
+			const store = initializeFirestore(app, {})
+			const collectionRef = collection(store, 'songs')
+			const docRef = doc(collectionRef, id)
+
+			await updateDoc(docRef, { commentCount: song.value.commentCount++ })
+		} catch (error) {}
 	}
 
 	function showSuccessMessage() {
