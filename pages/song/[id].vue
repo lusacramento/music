@@ -11,6 +11,7 @@
 				<button
 					type="button"
 					class="z-50 h-24 w-24 text-3xl bg-white text-black rounded-full focus:outline-none"
+					@click.prevent="newSong(song)"
 				>
 					<AppIcon icon="fa-play" class="" />
 				</button>
@@ -157,6 +158,7 @@
 		Field as VeeField,
 		ErrorMessage as VeeErrorMessage,
 	} from 'vee-validate'
+	import { useMyPlayerStore } from '~/stores/player'
 
 	definePageMeta({
 		middleware: [function (to, from) {}, 'not-auth'],
@@ -291,5 +293,11 @@
 		comment_alert_variant.value = 'bg-red-500'
 		comment_alert_msg.value =
 			'An unexpected error occured. Please try again later.'
+	}
+
+	function newSong(song: any) {
+		console.log(song)
+
+		useMyPlayerStore().newSong(song)
 	}
 </script>
