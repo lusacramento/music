@@ -10,10 +10,11 @@ export const useMyPlayerStore = defineStore({
 	id: 'myPlayerStore',
 	state: () => ({
 		icon: icons.play,
-		currentSong: {},
+		currentSong: {} as Object | any,
 		sound: undefined as Howl | undefined,
 		seek: '00:00' as string | number | undefined,
 		duration: '00:00' as string | number | undefined,
+		playerProgress: '0%',
 	}),
 
 	getters: {
@@ -62,6 +63,11 @@ export const useMyPlayerStore = defineStore({
 		progress() {
 			this.seek = useHelper().formatTime(this.sound?.seek())
 			this.duration = useHelper().formatTime(this.sound?.duration())
+
+			if (this.sound?.seek !== undefined && this.sound.duration !== undefined)
+				this.playerProgress = `${
+					(this.sound?.seek() / this.sound?.duration()) * 100
+				}%`
 
 			if (this.sound?.playing()) {
 				requestAnimationFrame(this.progress)
