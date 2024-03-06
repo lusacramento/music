@@ -34,7 +34,6 @@
 <script lang="ts" setup>
 	definePageMeta({
 		middleware: [function (to, from) {}, 'not-auth'],
-		pageTransition: { name: 'fade', mode: 'out-in' },
 	})
 
 	import {

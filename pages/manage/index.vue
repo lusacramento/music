@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<main>
 		<!-- Main Content -->
 		<section class="container mx-auto mt-6">
 			<div class="md:grid md:grid-cols-3 md:gap-4">
@@ -33,12 +33,13 @@
 				</div>
 			</div>
 		</section>
-	</div>
+	</main>
 </template>
 
 <script lang="ts" setup>
 	definePageMeta({
 		middleware: [function (to, from) {}, 'auth'],
+		pageTransition: { name: 'fade', mode: 'out-in' },
 	})
 
 	useSeoMeta({

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<main>
 		<!-- Music Header -->
 		<section class="w-full mb-8 py-14 text-center text-white relative">
 			<div
@@ -97,7 +97,7 @@
 				</li>
 			</ClientOnly>
 		</ul>
-	</div>
+	</main>
 </template>
 
 <script lang="ts" setup>
@@ -125,6 +125,7 @@
 
 	definePageMeta({
 		middleware: [function (to, from) {}, 'not-auth'],
+		pageTransition: { name: 'fade', mode: 'out-in' },
 	})
 
 	const schema = {
