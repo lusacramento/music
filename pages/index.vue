@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<main>
 		<!-- Main Content -->
 		<section class="container mx-auto">
 			<div
@@ -28,13 +28,14 @@
 				</button>
 			</div>
 		</section>
-	</div>
+	</main>
 </template>
 
 <script lang="ts" setup>
-	// definePageMeta({
-	// 	middleware: [function (to, from) {}, 'homepage'],
-	// })
+	definePageMeta({
+		middleware: [function (to, from) {}, 'not-auth'],
+		pageTransition: { name: 'fade', mode: 'out-in' },
+	})
 
 	import {
 		Query,
