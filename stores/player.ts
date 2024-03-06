@@ -77,5 +77,19 @@ export const useMyPlayerStore = defineStore({
 				requestAnimationFrame(this.progress)
 			}
 		},
+
+		updateSeek($event: any) {
+			if (!this.sound?.playing) {
+				return
+			}
+
+			const { x, width } = $event.currentTarget.getBoundingClientRect()
+			const clickX = $event.clientX - x
+			const percentage = clickX / width
+			const seconds = this.sound.duration() * percentage
+
+			this.sound.seek(seconds)
+			this.sound.once('seek', this.progress)
+		},
 	},
 })

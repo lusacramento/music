@@ -14,7 +14,10 @@
 			<!-- Current Position -->
 			<div class="player-currenttime">{{ seek }}</div>
 			<!-- Scrub Container  -->
-			<div class="w-full h-2 rounded bg-gray-200 relative cursor-pointer">
+			<div
+				class="w-full h-2 rounded bg-gray-200 relative cursor-pointer"
+				@click.prevent="updateSeek($event)"
+			>
 				<!-- Player Ball -->
 				<span
 					class="absolute -top-2.5 -ml-2.5 text-gray-800 text-lg"
@@ -40,6 +43,10 @@
 		storeToRefs(playerStore)
 
 	function toggleAudio() {
-		useMyPlayerStore().toogleAudio()
+		playerStore.toogleAudio()
+	}
+
+	function updateSeek($event: any) {
+		playerStore.updateSeek($event)
 	}
 </script>
