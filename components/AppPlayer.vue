@@ -11,7 +11,7 @@
 				<AppIcon :icon="icon" class="text-gray-500 text-xl" />
 			</button>
 			<!-- Current Position -->
-			<div class="player-currenttime">00:00</div>
+			<div class="player-currenttime">{{ seek }}</div>
 			<!-- Scrub Container  -->
 			<div class="w-full h-2 rounded bg-gray-200 relative cursor-pointer">
 				<!-- Player Ball -->
@@ -28,14 +28,14 @@
 				></span>
 			</div>
 			<!-- Duration -->
-			<div class="player-duration">03:06</div>
+			<div class="player-duration">{{ duration }}</div>
 		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
 	const playerStore = useMyPlayerStore()
-	const { icon } = storeToRefs(playerStore)
+	const { icon, duration, seek } = storeToRefs(playerStore)
 
 	function toggleAudio() {
 		useMyPlayerStore().toogleAudio()

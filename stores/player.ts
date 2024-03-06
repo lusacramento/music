@@ -12,6 +12,8 @@ export const useMyPlayerStore = defineStore({
 		icon: icons.play,
 		currentSong: {},
 		sound: undefined as Howl | undefined,
+		seek: '00:00' as string | number | undefined,
+		duration: '00:00' as string | number | undefined,
 	}),
 
 	getters: {
@@ -34,6 +36,10 @@ export const useMyPlayerStore = defineStore({
 			})
 
 			this.sound.play()
+
+			this.sound.on('play', () => {
+				requestAnimationFrame(this.progress)
+			})
 			this.icon = icons.pause
 		},
 
@@ -50,6 +56,15 @@ export const useMyPlayerStore = defineStore({
 			} else {
 				this.sound.play()
 				this.icon = icons.pause
+			}
+		},
+
+		progress() {
+			this.seek = useHelper().formatTime(this.sound?.seek())
+			this.duration = useHelper().formatTime(this.sound?.duration())
+
+			if (this.sound?.playing()) {
+				requestAnimationFrame(this.progress)
 			}
 		},
 	},
