@@ -2,11 +2,18 @@
 	<div>
 		<AppHeader />
 		<AppIntroduction />
-		<slot />
+		<div class="view">
+			<slot />
+		</div>
+		<AppPlayer />
 		<AppAuth />
 	</div>
 </template>
 
 <script lang="ts" setup></script>
 
-<style></style>
+<style>
+	.view {
+		margin-bottom: 70px;
+	}
+</style>
