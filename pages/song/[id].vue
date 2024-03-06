@@ -137,7 +137,6 @@
 </template>
 
 <script lang="ts" setup>
-	import { set } from 'firebase/database'
 	import {
 		collection,
 		initializeFirestore,
