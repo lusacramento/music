@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<main>
 		<!-- Main Content -->
 		<section class="container mx-auto">
 			<div
@@ -13,65 +13,27 @@
 						class="float-right text-green-400 text-xl"
 					/>
 				</div>
-				<!-- Playlist -->
 				<ol id="playlist">
-					<SongItem v-for="song in songs" :key="song.id" :song="song" />
+					<ClientOnly>
+						<SongItem v-for="song in songs" :key="song.id" :song="song" />
+					</ClientOnly>
 				</ol>
 				<button
 					type="button"
-					v-if="isMoreSongs"
-					@click.prevent="getMoreSongs"
 					class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700"
+					@click.prevent="getMoreSongs"
+					v-if="isMoreSongs"
 				>
 					Get More...
 				</button>
-
-				<!-- .. end Playlist -->
 			</div>
 		</section>
-
-		<!-- Player -->
-		<div
-			class="fixed bottom-0 left-0 bg-white px-4 py-2 w-full"
-			style="display: none"
-		>
-			<!-- Track Info -->
-			<div class="text-center">
-				<span class="song-title font-bold">Song Title</span> by
-				<span class="song-artist">Artist</span>
-			</div>
-			<div class="flex flex-nowrap gap-4 items-center">
-				<!-- Play/Pause Button -->
-				<button type="button">
-					<AppIcon icon="fa fa-play" class="text-gray-500 text-xl" />
-				</button>
-				<!-- Current Position -->
-				<div class="player-currenttime">00:00</div>
-				<!-- Scrub Container  -->
-				<div class="w-full h-2 rounded bg-gray-200 relative cursor-pointer">
-					<!-- Player Ball -->
-					<span
-						class="absolute -top-2.5 -ml-2.5 text-gray-800 text-lg"
-						style="left: 50%"
-					>
-						<AppIcon icon="fas fa-circle" class="" />
-					</span>
-					<!-- Player Progress Bar-->
-					<span
-						class="block h-2 rounded bg-gradient-to-r from-green-500 to-green-400"
-						style="width: 50%"
-					></span>
-				</div>
-				<!-- Duration -->
-				<div class="player-duration">03:06</div>
-			</div>
-		</div>
-	</div>
+	</main>
 </template>
 
 <script lang="ts" setup>
 	definePageMeta({
-		middleware: [function (to, from) {}, 'homepage'],
+		middleware: [function (to, from) {}, 'not-auth'],
 	})
 
 	import {
@@ -93,7 +55,7 @@
 		title: 'Music - Home Page',
 	})
 
-	const isMoreSongs = ref(false)
+	const isMoreSongs = ref(true)
 
 	let lastSongId = ''
 	let lastLoadedSongId = ''
@@ -115,7 +77,7 @@
 				})
 
 				lastSongId = songs.docIdLast = await getLastSongId()
-				isMoreSongs.value = existsMoreSongs(lastSongId, lastLoadedSongId)
+				isMoreSongs.value = await existsMoreSongs(lastSongId, lastLoadedSongId)
 			}
 		})
 	} catch (error) {
