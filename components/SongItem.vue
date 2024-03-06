@@ -12,10 +12,16 @@
 		</div>
 
 		<div class="text-gray-600 text-lg">
-			<span class="comments">
-				<AppIcon icon="fa fa-comments" class="text-gray-600" />
-				{{ song.commentCount }}
-			</span>
+			<NuxtLink
+				custom
+				:to="{ path: songUrl, hash: '#comments' }"
+				v-slot="{ navigate }"
+			>
+				<span class="comments" @click="navigate">
+					<AppIcon icon="fa fa-comments" class="text-gray-600" />
+					{{ song.commentCount }}
+				</span>
+			</NuxtLink>
 		</div>
 	</li>
 </template>
