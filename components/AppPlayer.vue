@@ -7,8 +7,8 @@
 		</div>
 		<div class="flex flex-nowrap gap-4 items-center">
 			<!-- Play/Pause Button -->
-			<button type="button">
-				<AppIcon icon="fa-play" class="text-gray-500 text-xl" />
+			<button type="button" @click.prevent="toggleAudio()">
+				<AppIcon :icon="icon" class="text-gray-500 text-xl" />
 			</button>
 			<!-- Current Position -->
 			<div class="player-currenttime">00:00</div>
@@ -33,6 +33,11 @@
 	</div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+	const playerStore = useMyPlayerStore()
+	const { icon } = storeToRefs(playerStore)
 
-<style></style>
+	function toggleAudio() {
+		useMyPlayerStore().toogleAudio()
+	}
+</script>

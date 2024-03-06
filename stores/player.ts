@@ -1,12 +1,29 @@
 import { defineStore } from 'pinia'
 import { Howl } from 'howler'
 
+const icons = {
+	pause: 'fa-pause',
+	play: 'fa-play',
+}
+
 export const useMyPlayerStore = defineStore({
 	id: 'myPlayerStore',
 	state: () => ({
+		icon: icons.play,
 		currentSong: {},
 		sound: undefined as Howl | undefined,
 	}),
+
+	getters: {
+		playing: (state) => {
+			if (state.sound?.playing) {
+				return state.sound.playing()
+			}
+
+			return false
+		},
+	},
+
 	actions: {
 		newSong(song: any) {
 			this.currentSong = song
@@ -16,9 +33,24 @@ export const useMyPlayerStore = defineStore({
 				html5: true,
 			})
 
-			console.log(this.sound)
-
 			this.sound.play()
+			this.icon = icons.pause
+		},
+
+		async toogleAudio() {
+			if (!this.sound?.playing) {
+				return
+			}
+
+			this.icon = icons.play
+
+			if (this.sound.playing()) {
+				this.sound.pause()
+				this.icon = icons.play
+			} else {
+				this.sound.play()
+				this.icon = icons.pause
+			}
 		},
 	},
 })

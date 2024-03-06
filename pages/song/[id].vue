@@ -259,8 +259,6 @@
 	}
 
 	function newSong(song: any) {
-		console.log(song)
-
 		useMyPlayerStore().newSong(song)
 	}
 </script>
