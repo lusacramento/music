@@ -7,11 +7,17 @@
 		<div class="container mx-auto">
 			<div class="text-white main-header-content">
 				<h1 class="font-bold text-5xl mb-5">Listen to Great Music!</h1>
-				<p class="w-full md:w-8/12 mx-auto">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus et
-					dolor mollis, congue augue non, venenatis elit. Nunc justo eros,
-					suscipit ac aliquet imperdiet, venenatis et sapien. Duis sed magna
-					pulvinar, fringilla lorem eget, ullamcorper urna.
+				<h2 class="w-full md:w-8/12 mx-auto">
+					Discover new music, connect with artists and fans worldwide!
+				</h2>
+				<p>
+					This app is based on
+					<a
+						href="https://www.udemy.com/course/complete-vue-js-developer-zero-to-mastery-vuex/"
+						>Complete Vue Developer Bootcamp (Pinia, Vitest)</a
+					>
+					course hosted on <span>Udemy</span>. <br />In case, the original code
+					was rewrited on <a href="https://nuxt.com/">Nuxt 3</a> framework.
 				</p>
 			</div>
 		</div>
@@ -22,3 +28,23 @@
 		/>
 	</section>
 </template>
+
+<style scoped>
+	h1 {
+		margin-bottom: 10px !important;
+	}
+	h2 {
+		font-size: larger;
+		margin-bottom: 20px;
+	}
+
+	p {
+		font-size: smaller;
+		color: rgba(255, 255, 255, 0.5);
+	}
+
+	a,
+	span {
+		color: rgba(255, 255, 255, 0.7);
+	}
+</style>
