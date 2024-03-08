@@ -12,5 +12,3 @@
 		isAnimate: { type: Boolean, required: false, default: false },
 	})
 </script>
-
-<style></style>

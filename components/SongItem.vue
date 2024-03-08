@@ -30,11 +30,6 @@
 	const props = defineProps({
 		song: { type: Object, required: true },
 	})
-	onMounted(async () => {
-		const song = await ref({
-			...props.song,
-		})
-	})
 
 	const songUrl = `/song/${props.song.id}`
 </script>

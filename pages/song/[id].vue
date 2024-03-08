@@ -116,11 +116,7 @@
 		updateDoc,
 	} from 'firebase/firestore'
 
-	import {
-		Form as VeeForm,
-		Field as VeeField,
-		ErrorMessage as VeeErrorMessage,
-	} from 'vee-validate'
+	import { Form as VeeForm, Field as VeeField } from 'vee-validate'
 	import { useMyPlayerStore } from '~/stores/player'
 
 	definePageMeta({
@@ -190,7 +186,7 @@
 			const store = getFirestore(app)
 			const collectionRef = collection(store, 'comments')
 
-			await addDoc(collectionRef, comment).then(async (snapshot) => {
+			await addDoc(collectionRef, comment).then(async () => {
 				await updateCommentsCounter()
 
 				await comments.value.push(comment)

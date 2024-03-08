@@ -36,6 +36,10 @@
 		middleware: [function (to, from) {}, 'not-auth'],
 	})
 
+	useSeoMeta({
+		title: 'Music - Home Page',
+	})
+
 	import {
 		Query,
 		collection,
@@ -50,10 +54,6 @@
 		orderBy,
 		limitToLast,
 	} from 'firebase/firestore'
-
-	useSeoMeta({
-		title: 'Music - Home Page',
-	})
 
 	const isMoreSongs = ref(true)
 
