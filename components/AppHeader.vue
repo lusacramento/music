@@ -26,6 +26,13 @@
 						</li>
 					</template>
 				</ul>
+				<ul class="ml-auto">
+					<li>
+						<a href="#" class="px-2 text-white" @click.prevent="changeLocale">
+							{{ currentLocale }}
+						</a>
+					</li>
+				</ul>
 			</div>
 		</nav>
 	</header>
@@ -36,7 +43,14 @@
 		useMyModalStore().toogleIsOpened()
 	}
 
+	const currentLocale = ref(useNuxtApp().$i18n.locale)
+
 	function logout() {
 		useMyUserStore().signOut()
+	}
+
+	function changeLocale() {
+		useNuxtApp().$i18n.locale.value =
+			useNuxtApp().$i18n.locale.value === 'en' ? 'pt' : 'en'
 	}
 </script>
