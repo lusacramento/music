@@ -7,7 +7,6 @@ import {
 	deleteDoc,
 	doc,
 	updateDoc,
-	setDoc,
 	getDoc,
 	addDoc,
 } from 'firebase/firestore'
@@ -16,8 +15,6 @@ import {
 	getStorage,
 	uploadBytesResumable,
 	ref,
-	type UploadTask,
-	getDownloadURL,
 	deleteObject,
 } from 'firebase/storage'
 
@@ -26,8 +23,6 @@ const auth = useNuxtApp().$auth
 
 const store = initializeFirestore(app, {})
 const colection = collection(store, 'songs')
-const docRef = doc(colection)
-
 const queryById = query(colection, where('uid', '==', auth.currentUser?.uid))
 
 const storage = getStorage(app)

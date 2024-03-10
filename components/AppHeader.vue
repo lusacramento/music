@@ -40,5 +40,3 @@
 		useMyUserStore().signOut()
 	}
 </script>
-
-<style></style>

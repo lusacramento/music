@@ -137,7 +137,6 @@
 		releaseTrigger()
 		resetDefaultValues()
 
-		// firebase
 		createUser()
 
 		async function createUser() {
@@ -177,5 +176,3 @@
 					'An unexpected error occured. Please try again later.')
 	}
 </script>
-
-<style></style>

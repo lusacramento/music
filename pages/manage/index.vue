@@ -58,10 +58,6 @@
 		addSong(doc)
 	})
 
-	useSeoMeta({
-		title: 'Music - Manage',
-	})
-
 	const upload = ref<InstanceType<typeof Upload> | null>(null)
 
 	let unsavedFlag = false

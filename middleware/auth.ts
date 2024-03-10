@@ -11,7 +11,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 	return
 
 	async function getLoggedIn() {
-		// const store = await useMyUserStore()
 		return store().isLoggedIn
 	}
 })

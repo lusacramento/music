@@ -6,6 +6,7 @@ import {
 	updateProfile,
 	type UserCredential,
 } from 'firebase/auth'
+
 import {
 	initializeFirestore,
 	collection,
@@ -61,8 +62,6 @@ export const useMyUserStore = defineStore({
 
 					this.isUserLoggedIn = true
 				} catch (error) {
-					// const user = getUser()
-					// deleteUser(userResponse)
 					return error
 				}
 

@@ -109,7 +109,7 @@
 						0,
 					)}%)`
 				},
-				(error) => {
+				() => {
 					showErrorMessage(uploadIndex, file.name)
 				},
 				async () => {
@@ -144,8 +144,6 @@
 
 			await props.addSong(songSnapshot)
 		} catch (error) {
-			// const user = getUser()
-			// deleteUser(userResponse)
 			return error
 		}
 	}
@@ -178,5 +176,3 @@
 		].name = `Error. The "${fileName}" file size may be too large.`
 	}
 </script>
-
-<style></style>
