@@ -2,5 +2,8 @@
     "home": {
         "listen": "Listen to Great Music!",
         "discover": "Discover new music, connect with artists and fans worldwide!"
+    },
+    "song": {
+        "comment_count": "No comments |  1 comment | {count} comments"
     }
 }

@@ -32,7 +32,14 @@
 				<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
 					<!-- Comment Count -->
 					<ClientOnly>
-						<span class="card-title">Comments ({{ song.commentCount }}) </span>
+						<span class="card-title"
+							>{{
+								$t('song.comment_count', {
+									count: song.commentCount,
+								})
+							}}
+							({{ song.commentCount }})
+						</span>
 					</ClientOnly>
 					<AppIcon
 						icon="fa-comments"
