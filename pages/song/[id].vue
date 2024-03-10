@@ -20,6 +20,7 @@
 					<ClientOnly>
 						<div class="text-3xl font-bold">{{ song.modifiedName }}</div>
 						<div>{{ song.genre }}</div>
+						<div class="song-price">{{ $n(1, 'currency') }}</div>
 					</ClientOnly>
 				</div>
 			</div>

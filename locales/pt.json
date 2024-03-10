@@ -2,5 +2,12 @@
     "home": {
         "listen": "Ouça uma boa música!",
         "discover": "Descubra novas músicas, conecte-se com artistas e fans de todo mundo!"
+    },
+    "song": {
+        "comment_count": "Sem comentários |  1 comentário | {count} comentários"
+    },
+    "register": {
+        "accept": "Eu aceito os {0}",
+        "tos": "Termos de Serviço"
     }
 }
