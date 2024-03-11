@@ -6,9 +6,9 @@
 		></div>
 		<div class="container mx-auto">
 			<div class="text-white main-header-content">
-				<h1 class="font-bold text-5xl mb-5">Listen to Great Music!</h1>
+				<h1 class="font-bold text-5xl mb-5">{{ $t('home.listen') }}</h1>
 				<h2 class="w-full md:w-8/12 mx-auto">
-					Discover new music, connect with artists and fans worldwide!
+					{{ $t('home.discover') }}
 				</h2>
 				<p>
 					This app is based on
@@ -28,6 +28,8 @@
 		/>
 	</section>
 </template>
+
+<script lang="ts" setup></script>
 
 <style scoped>
 	h1 {
