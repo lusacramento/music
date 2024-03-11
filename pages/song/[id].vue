@@ -20,7 +20,7 @@
 					<ClientOnly>
 						<div class="text-3xl font-bold">{{ song.modifiedName }}</div>
 						<div>{{ song.genre }}</div>
-						<div class="song-price">{{ $n(1, 'currency') }}</div>
+						<div class="song-price">{{ $n(price, 'currency') }}</div>
 					</ClientOnly>
 				</div>
 			</div>
@@ -126,6 +126,8 @@
 
 	import { Form as VeeForm, Field as VeeField } from 'vee-validate'
 	import { useMyPlayerStore } from '~/stores/player'
+
+	import Freecurrencyapi from '@everapi/freecurrencyapi-js'
 
 	definePageMeta({
 		middleware: [function (to, from) {}, 'not-auth'],
@@ -265,5 +267,29 @@
 
 	function newSong(song: any) {
 		useMyPlayerStore().newSong(song)
+	}
+
+	const price = ref(0)
+	price.value = getPrice()
+
+	function getPrice() {
+		const price2 = 2
+
+		const currencyRate = 4.79
+		// const currency = new Freecurrencyapi(
+		// 	'fca_live_AXSk1x6BuCgKsUzOFhqiw6983ghx9i6kdwYD8oA1',
+		// )
+
+		// currency
+		// 	.latest({
+		// 		base_currency: 'USD',
+		// 		currencies: 'BRL',
+		// 	})
+		// 	.then((response: any) => {
+		// 		console.log(response)
+		// 	})
+
+		if (useNuxtApp().$i18n.locale.value === 'pt') return price2 * currencyRate
+		return price2
 	}
 </script>
