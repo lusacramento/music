@@ -60,7 +60,7 @@
 	})
 
 	interface upLoad {
-		task: UploadTask
+		task: UploadTask | null
 		currentProgress: number
 		name: string
 		variant: string
@@ -69,7 +69,7 @@
 		textClass: string
 	}
 
-	const uploads: Ref<upLoad[]> = ref([])
+	const uploads: Ref<upLoad[]> | any = ref([])
 
 	const isDragover = ref(false)
 
@@ -85,6 +85,18 @@
 
 		files.forEach(async (file) => {
 			if (!isAudioFile(file.type)) return
+
+			if (!navigator.onLine) {
+				uploads.value.push({
+					task: null,
+					currentProgress: 100,
+					name: file.name,
+					variant: 'bg-red-400',
+					icon: 'faTimes',
+					textClass: 'text-red-400',
+				})
+				return
+			}
 
 			const task = useISong().addSong(file)
 
@@ -149,7 +161,7 @@
 	}
 
 	const cancelUploads = function () {
-		uploads.value.forEach((upload) => {
+		uploads.value.forEach((upload: any) => {
 			upload.task.cancel()
 		})
 	}

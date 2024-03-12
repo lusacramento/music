@@ -1,5 +1,7 @@
 import { FontAwesomeAppIcon } from '@fortawesome/vue-fontawesome';
 <template>
+	<VitePwaManifest />
+	<NuxtLoadingIndicator />
 	<NuxtLayout>
 		<NuxtPage />
 	</NuxtLayout>
