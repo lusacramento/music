@@ -1,10 +1,10 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
-import firestore from 'firebase/firestore'
 import {
 	initializeFirestore,
 	enablePersistentCacheIndexAutoCreation,
 	getPersistentCacheIndexManager,
+	collection,
 } from 'firebase/firestore'
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -22,9 +22,12 @@ export default defineNuxtPlugin((nuxtApp) => {
 	const app = initializeApp(firebaseConfig)
 	const auth = getAuth(app)
 
-	const firestore = initializeFirestore(app, {})
+	const store = initializeFirestore(app, {})
 
-	const index = getPersistentCacheIndexManager(firestore)
+	const songCollection = collection(store, 'songs')
+	const commentsCollection = collection(store, 'comments')
+
+	const index = getPersistentCacheIndexManager(store)
 
 	if (index !== null) enablePersistentCacheIndexAutoCreation(index)
 
@@ -40,6 +43,8 @@ export default defineNuxtPlugin((nuxtApp) => {
 			app: app,
 			auth: auth,
 			onLoad: onLoad,
+			songCollection: songCollection,
+			commentsCollection,
 		},
 	}
 })
