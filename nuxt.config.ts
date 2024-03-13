@@ -58,7 +58,6 @@ export default defineNuxtConfig({
 		[
 			'@vite-pwa/nuxt',
 			{
-				strategies: 'generateSW',
 				registerWebManifestInRouteRules: true,
 				registerType: 'autoUpdate',
 				manifest: {
