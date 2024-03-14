@@ -14,7 +14,11 @@ export default defineNuxtConfig({
 	},
 
 	nitro: {
-		preset: 'firebase',
+		firebase: { gen: 2 },
+		prerender: {
+			routes: ['/'],
+			crawlLinks: true,
+		},
 	},
 	modules: [
 		'@nuxtjs/tailwindcss',
@@ -47,6 +51,51 @@ export default defineNuxtConfig({
 			{
 				i18n: {
 					vueI18n: './i18n.config.ts', // if you are using custom path, default
+				},
+			},
+		],
+
+		[
+			'@vite-pwa/nuxt',
+			{
+				registerWebManifestInRouteRules: true,
+				registerType: 'autoUpdate',
+				manifest: {
+					name: 'Music App',
+					short_name: 'MusicApp',
+					theme_color: '#ff5e3a',
+					display: 'standalone',
+					lang: 'en',
+
+					icons: [
+						{
+							src: '/imgs/pwa-192x192.png',
+							sizes: '192x192',
+							type: 'image/png',
+						},
+						{
+							src: '/imgs/pwa-512x512.png',
+							sizes: '512x512',
+							type: 'image/png',
+						},
+					],
+				},
+
+				workbox: {
+					globPatterns: ['**/*.{js,css,html,png,svg,ico,jpg}'],
+				},
+				injectManifest: {
+					globPatterns: ['**/*.{js,css,html,png,svg,ico,jpg}'],
+				},
+				client: {
+					installPrompt: true,
+				},
+				devOptions: {
+					enabled: true,
+					suppressWarnings: true,
+					navigateFallback: '/',
+					navigateFallbackAllowlist: [/^\/$/],
+					type: 'module',
 				},
 			},
 		],

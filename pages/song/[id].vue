@@ -8,6 +8,7 @@
 			></div>
 			<div class="container mx-auto flex items-center">
 				<!-- Play/Pause Button -->
+
 				<button
 					type="button"
 					class="z-50 h-24 w-24 text-3xl bg-white text-black rounded-full focus:outline-none"
@@ -109,20 +110,7 @@
 </template>
 
 <script lang="ts" setup>
-	import {
-		collection,
-		initializeFirestore,
-		doc,
-		getDoc,
-		getFirestore,
-		addDoc,
-		query,
-		where,
-		getDocs,
-		orderBy,
-		serverTimestamp,
-		updateDoc,
-	} from 'firebase/firestore'
+	import { serverTimestamp } from 'firebase/firestore'
 
 	import { Form as VeeForm, Field as VeeField } from 'vee-validate'
 	import { useMyPlayerStore } from '~/stores/player'
@@ -130,13 +118,16 @@
 	import Freecurrencyapi from '@everapi/freecurrencyapi-js'
 
 	definePageMeta({
-		middleware: [function (to, from) {}, 'not-auth'],
+		middleware: [function (to, from) {}, 'song-middleware'],
 		pageTransition: { name: 'fade', mode: 'out-in' },
 	})
 
+	import '@/plugins/firebase.client'
 	const schema = {
 		comment: 'required|min:3|max:300|alpha-spaces',
 	}
+
+	import { storeToRefs } from 'pinia'
 
 	const comment_in_submission = ref(false)
 	const comment_show_alert = ref(false)
@@ -144,13 +135,14 @@
 	const comment_alert_msg = ref('Please wait! Your comment is being submitted.')
 
 	const route = useRoute()
-	const router = useRouter()
-	const app = useNuxtApp().$app
 	const auth = useNuxtApp().$auth
 
 	const id = route.params.id as string | undefined
-	const song: Ref<any> = ref({})
-	const comments: Ref<any[]> = ref([])
+	const song: Ref<any> = storeToRefs(useMySongStore()).getSong
+	const commentsStore = useMyCommentsStore()
+	const comments: Ref<any[]> = storeToRefs(commentsStore).getComments
+	if (id != undefined) commentsStore.getCommentsOnStore(id)
+
 	let order = ref(true)
 
 	watch(order, () => {
@@ -158,22 +150,6 @@
 	})
 
 	const isLoggedIn = await useMyUserStore().isLoggedIn
-	await getSong()
-	await getComments()
-
-	async function getSong() {
-		try {
-			const store = initializeFirestore(app, {})
-			const collectionRef = collection(store, 'songs')
-			const docRef = doc(collectionRef, id)
-
-			await getDoc(docRef).then((docSnap) => {
-				!docSnap.exists()
-					? router.push('/')
-					: (song.value = { ...docSnap.data() })
-			})
-		} catch (error) {}
-	}
 
 	async function addComment(values: any, { resetForm }: any) {
 		comment_in_submission.value = true
@@ -193,19 +169,11 @@
 		}
 
 		try {
-			const store = getFirestore(app)
-			const collectionRef = collection(store, 'comments')
-
-			await addDoc(collectionRef, comment).then(async () => {
-				await updateCommentsCounter()
-
-				await comments.value.push(comment)
-
-				resetForm()
-				comment_in_submission.value = false
-
-				showSuccessMessage()
-			})
+			await commentsStore.addCommentOnStore(comment)
+			await updateCommentsCounter()
+			resetForm()
+			comment_in_submission.value = false
+			showSuccessMessage()
 		} catch (error) {
 			showErrorMessage(error)
 		}
@@ -214,45 +182,12 @@
 	async function updateCommentsCounter() {
 		song.value.commentCount++
 
-		try {
-			const store = initializeFirestore(app, {})
-			const collectionRef = collection(store, 'songs')
-			const docRef = doc(collectionRef, id)
-
-			await updateDoc(docRef, { commentCount: song.value.commentCount++ })
-		} catch (error) {}
+		useMySongStore().updateCommentsCounterOnStore()
 	}
 
 	function showSuccessMessage() {
 		comment_alert_variant.value = 'bg-green-500'
 		comment_alert_msg.value = 'Comment added!'
-	}
-
-	async function getComments() {
-		try {
-			const store = getFirestore(app)
-			const collectionRef = collection(store, 'comments')
-			const queryRef = query(
-				collectionRef,
-				where('sid', '==', id),
-				orderBy('datePosted', 'desc'),
-			)
-
-			await getDocs(queryRef).then((snapshot) => {
-				snapshot.forEach(async (doc) => {
-					const currentComment: any = await {
-						id: doc.id,
-						...doc.data(),
-					}
-					currentComment.datePosted = new Date(currentComment.datePosted * 1000)
-					comments.value.push({
-						...currentComment,
-					})
-				})
-			})
-		} catch (error) {
-			console.log(error)
-		}
 	}
 
 	function invertOrder() {

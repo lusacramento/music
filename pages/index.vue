@@ -33,108 +33,19 @@
 
 <script lang="ts" setup>
 	definePageMeta({
-		middleware: [function (to, from) {}, 'not-auth'],
+		middleware: [function (to, from) {}, 'index-middleware'],
 	})
 
 	useSeoMeta({
 		title: 'Music - Home Page',
 	})
 
-	import {
-		Query,
-		collection,
-		doc,
-		getDoc,
-		getDocs,
-		initializeFirestore,
-		getFirestore,
-		limit,
-		query,
-		startAfter,
-		orderBy,
-		limitToLast,
-	} from 'firebase/firestore'
+	import { storeToRefs } from 'pinia'
 
-	const isMoreSongs = ref(true)
-
-	let lastSongId = ''
-	let lastLoadedSongId = ''
-
-	const app = useNuxtApp().$app
-
-	const songs: any = ref([])
-	const limitFiles = 3
-
-	try {
-		const store = initializeFirestore(app, {})
-		const collectionRef = collection(store, 'songs')
-		const queryRef = query(collectionRef, limit(limitFiles))
-
-		await getSongs(queryRef).then(async (snapshot) => {
-			if (!snapshot.empty) {
-				snapshot.forEach((doc: any) => {
-					addSong(doc)
-				})
-
-				lastSongId = songs.docIdLast = await getLastSongId()
-				isMoreSongs.value = await existsMoreSongs(lastSongId, lastLoadedSongId)
-			}
-		})
-	} catch (error) {
-		console.log(error)
-	}
+	const songs: Ref<any[]> = storeToRefs(useMySongsStore()).getSongs
+	const isMoreSongs = storeToRefs(useMySongsStore()).getIsMoreSongs
 
 	async function getMoreSongs() {
-		const loadedLastId = songs.value[songs.value.length - 1].id
-
-		const store = getFirestore(app)
-		const collectionRef = collection(store, 'songs')
-		const lastDocRef = doc(collectionRef, loadedLastId)
-
-		const lastDoc = await getDoc(lastDocRef)
-		const queryRef = query(
-			collectionRef,
-			limit(limitFiles),
-			startAfter(lastDoc),
-		)
-
-		const snapshot = await getSongs(queryRef)
-		snapshot.forEach((doc: any) => {
-			addSong(doc)
-			isMoreSongs.value = existsMoreSongs(lastSongId, lastLoadedSongId)
-		})
-	}
-
-	async function getSongs(queryRef: Query) {
-		return await getDocs(queryRef)
-	}
-
-	async function getLastSongId() {
-		let id = ''
-		const store = getFirestore(app)
-		const collectionRef = collection(store, 'songs')
-		const queryRef = query(
-			collectionRef,
-			orderBy('__name__', 'asc'),
-			limitToLast(1),
-		)
-
-		await getDocs(queryRef).then((snapshot) => {
-			id = !snapshot.empty ? snapshot.docs[0].id : ''
-		})
-		return id
-	}
-
-	function existsMoreSongs(lastSongId: string, lastLoadedSongId: string) {
-		return lastSongId !== lastLoadedSongId
-	}
-
-	function addSong(doc: any) {
-		const song = {
-			...doc.data(),
-			id: doc.id,
-		}
-		songs.value.push(song)
-		lastLoadedSongId = songs.value[songs.value.length - 1].id
+		useMySongsStore().getMoreSongs()
 	}
 </script>
