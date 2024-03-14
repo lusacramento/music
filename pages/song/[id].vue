@@ -118,7 +118,7 @@
 	import Freecurrencyapi from '@everapi/freecurrencyapi-js'
 
 	definePageMeta({
-		middleware: [function (to, from) {}, 'not-auth'],
+		middleware: [function (to, from) {}, 'song-middleware'],
 		pageTransition: { name: 'fade', mode: 'out-in' },
 	})
 
