@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-white rounded border border-gray-200 relative flex flex-col">
 		<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
-			<span class="card-title">Upload</span>
+			<span class="card-title">{{ $t('upload.upload') }}</span>
 			<AppIcon
 				icon="fas fa-upload"
 				class="float-right text-green-400 text-2xl"
@@ -20,13 +20,14 @@
 				@dragleave.prevent.stop="isDragover = false"
 				@drop.prevent.stop="upload($event)"
 			>
-				<h5>Drop your files here</h5>
+				<h5>{{ $t('upload.drop') }}</h5>
 			</div>
 			<input
 				type="file"
 				name="upload-songs"
 				id="upload-songs"
 				multiple
+				title="haga clic para cargar el archivo"
 				@change="upload($event)"
 			/>
 			<hr class="my-6" />

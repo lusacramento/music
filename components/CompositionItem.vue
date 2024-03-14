@@ -31,23 +31,27 @@
 				@submit="edit"
 			>
 				<div class="mb-3">
-					<label class="inline-block mb-2">Song Title</label>
+					<label class="inline-block mb-2">{{
+						$t('compositionItem.songTitle')
+					}}</label>
 					<VeeField
 						name="modifiedName"
 						type="text"
 						class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-						placeholder="Enter Song Title"
+						:placeholder="$t('compositionItem.placeholder.title')"
 						@input="props.updateUnsavedFlag(true)"
 					/>
 					<VeeErrorMessage name="modifiedName" class="text-red-600" />
 				</div>
 				<div class="mb-3">
-					<label class="inline-block mb-2">Genre</label>
+					<label class="inline-block mb-2">{{
+						$t('compositionItem.genre')
+					}}</label>
 					<VeeField
 						name="genre"
 						type="text"
 						class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-						placeholder="Enter Genre"
+						:placeholder="$t('compositionItem.placeholder.genre')"
 						@input="props.updateUnsavedFlag(true)"
 					/>
 					<VeeErrorMessage name="genre" class="text-red-600" />
@@ -57,7 +61,7 @@
 					class="py-1.5 px-3 rounded text-white bg-green-600"
 					:disabled="inSubmission"
 				>
-					Submit
+					{{ $t('compositionItem.submit') }}
 				</button>
 				<button
 					type="button"
@@ -65,7 +69,7 @@
 					:disabled="inSubmission"
 					@click.prevent="showForm = false"
 				>
-					Go Back
+					{{ $t('compositionItem.back') }}
 				</button>
 			</VeeForm>
 		</div>

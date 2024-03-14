@@ -11,13 +11,16 @@
 					{{ $t('home.discover') }}
 				</h2>
 				<p>
-					This app is based on
+					{{ $t('introduction.based') }}
 					<a
 						href="https://www.udemy.com/course/complete-vue-js-developer-zero-to-mastery-vuex/"
-						>Complete Vue Developer Bootcamp (Pinia, Vitest)</a
+						>{{ $t('introduction.vue') }}</a
 					>
-					course hosted on <span>Udemy</span>. <br />In case, the original code
-					was rewrited on <a href="https://nuxt.com/">Nuxt 3</a> framework.
+					{{ $t('introduction.hosted') }} <span>Udemy</span>. <br />{{
+						$t('introduction.rewrited')
+					}}
+					<a href="https://nuxt.com/">Nuxt 3</a
+					>{{ $t('introduction.adapted') }} <span>Lu Sacramento</span>.
 				</p>
 			</div>
 		</div>

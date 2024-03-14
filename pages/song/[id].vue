@@ -36,7 +36,7 @@
 					<ClientOnly>
 						<span class="card-title"
 							>{{
-								$t('song.comment_count', {
+								$t('song.commentCount', {
 									count: song.commentCount,
 								})
 							}}
@@ -65,7 +65,7 @@
 							as="textarea"
 							name="comment"
 							class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded mb-4"
-							placeholder="Your comment here..."
+							:placeholder="$t('song.placeholder')"
 						/>
 						<ErrorMessage class="text-red-600" name="comment" />
 						<button
@@ -73,7 +73,7 @@
 							class="py-1.5 px-3 rounded text-white bg-green-600 block"
 							:disabled="comment_in_submission"
 						>
-							Submit
+							{{ $t('song.submit') }}
 						</button>
 					</VeeForm>
 					<!-- Sort Comments -->
@@ -82,8 +82,8 @@
 						class="block mt-4 py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
 						v-model="order"
 					>
-						<option value="true">Latest</option>
-						<option value="false">Oldest</option>
+						<option value="true">{{ $t('song.order.latest') }}</option>
+						<option value="false">{{ $t('song.order.oldest') }}</option>
 					</select>
 				</div>
 			</div>

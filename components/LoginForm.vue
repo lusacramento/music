@@ -16,20 +16,22 @@
 				name="email"
 				type="email"
 				class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-				placeholder="Enter Email"
+				:placeholder="$t('loginForm.placeholder.email')"
 				autocomplete="email"
 			/>
 			<VeeErrorMessage name="email" class="text-red-600" />
 		</div>
 		<!-- Password -->
 		<div class="mb-3">
-			<label for="password" class="inline-block mb-2">Password</label>
+			<label for="password" class="inline-block mb-2">{{
+				$t('loginForm.password')
+			}}</label>
 			<VeeField
 				id="password"
 				name="password"
 				type="password"
 				class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
-				placeholder="Password"
+				:placeholder="$t('loginForm.placeholder.password')"
 			/>
 			<VeeErrorMessage name="password" class="text-red-600" />
 		</div>
@@ -38,7 +40,7 @@
 			:disabled="login_in_submission"
 			class="block w-full bg-purple-600 text-white py-1.5 px-3 rounded transition hover:bg-purple-700"
 		>
-			Submit
+			{{ $t('loginForm.submit') }}
 		</button>
 	</VeeForm>
 </template>

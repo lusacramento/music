@@ -11,7 +11,7 @@
 						class="bg-white rounded border border-gray-200 relative flex flex-col"
 					>
 						<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
-							<span class="card-title">My Songs</span>
+							<span class="card-title">{{ $t('manage.mySongs') }}</span>
 							<AppIcon
 								icon="fa-compact-disc"
 								class="float-right text-green-400 float-right text-green-400 text-2xl"

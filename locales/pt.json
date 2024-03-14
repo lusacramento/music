@@ -4,10 +4,83 @@
         "discover": "Descubra novas músicas, conecte-se com artistas e fans de todo mundo!"
     },
     "song": {
-        "comment_count": "Sem comentários |  1 comentário | {count} comentários"
+        "commentCount": "Sem comentários |  1 comentário | {count} comentários",
+        "submit": "Enviar",
+        "order": {
+            "latest": "Mais recentes",
+            "oldest": "Mais antigos"
+        },
+        "placeholder": "Insira seu comentário aqui..."
     },
     "register": {
+        "name": "Nome",
+        "age": "Idade",
+        "password": "Senha",
+        "confirmPassword": "Confirmar senha",
+        "country": "País",
         "accept": "Eu aceito os {0}",
-        "tos": "Termos de Serviço"
+        "tos": "Termos de Serviço",
+        "submit": "Enviar",
+        "placeholder": {
+            "name": "Digite o nome",
+            "email": "Digite o email",
+            "age": "Idade",
+            "password": "Senha",
+            "confirmPassword": "Confirme sua senha"
+        }
+    },
+    "auth": {
+        "yourAccount": "Sua conta",
+        "register": "Registrar",
+        "login": "Entrar"
+    },
+    "loginForm": {
+        "password": "Senha",
+        "submit": "Enviar",
+        "placeholder": {
+            "email": "Entre com o email",
+            "password": "Entre com a senha"
+        }
+    },
+    "header": {
+        "loginRegister": "Entrar/Registrar",
+        "manage": "Gerenciar",
+        "logout": "Sair"
+    },
+    "introduction": {
+        "based": "Este aplicativo é baseado no",
+        "vue": "Complete Vue Developer Bootcamp (Pinia, Vitest)",
+        "hosted": "hospedado na",
+        "rewrited": "Neste caso, o código original foi reescrito no framework",
+        "adapted": ". Adaptado por"
+    },
+    "upload": {
+        "upload": "Enviar",
+        "drop": "Solte seus arquivos aqui"
+    },
+    "compositionItem": {
+        "songTitle": "Título da música",
+        "genre": "Gênero",
+        "submit": "Enviar",
+        "back": "Voltar",
+        "placeholder": {
+            "title": "Entre com o título da música",
+            "genre": "Entre com o gênero"
+        }
+    },
+    "countries": {
+        "usa": "Estados Unidos",
+        "mexico": "México",
+        "germany": "Alemanha",
+        "antartica": "Antártica",
+        "southAmerica": "América do Sul"
+    },
+    "index": {
+        "songs": "Músicas",
+        "getMore": "Mais..."
+    },
+    "manage": {
+        "mySongs": "Minhas Músicas",
+        "confirm": "Você tem alterações não salvas. Deseja mesmo sair?"
     }
 }

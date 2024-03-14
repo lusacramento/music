@@ -4,10 +4,84 @@
         "discover": "Discover new music, connect with artists and fans worldwide!"
     },
     "song": {
-        "comment_count": "No comments |  1 comment | {count} comments"
+        "commentCount": "No comments |  1 comment | {count} comments",
+        "submit": "Submit",
+        "order": {
+            "latest": "Latest",
+            "oldest": "Oldest"
+        },
+        "placeholder": "Your comment here..."
     },
     "register": {
+        "name": "Name",
+        "age": "Age",
+        "password": "Password",
+        "confirmPassword": "Confirm password",
+        "country": "Country",
         "accept": "I accept Music's {0}",
-        "tos": "Terms of Service"
+        "tos": "Terms of Service",
+        "submit": "Submit",
+        "placeholder": {
+            "name": "Enter Name",
+            "email": "Enter Email",
+            "age": "Age",
+            "password": "Password",
+            "confirmPassword": "Confirm password"
+        }
+    },
+    "auth": {
+        "yourAccount": "Your Account",
+        "register": "Register",
+        "login": "Login",
+        "password": "password"
+    },
+    "loginForm": {
+        "password": "Password",
+        "submit": "Submit",
+        "placeholder": {
+            "email": "Enter Email",
+            "password": "Password"
+        }
+    },
+    "header": {
+        "loginRegister": "Login/Register",
+        "manage": "Manage",
+        "logout": "Logout"
+    },
+    "introduction": {
+        "based": "This app based on",
+        "vue": "Complete Vue Developer Bootcamp (Pinia, Vitest)",
+        "hosted": "course hosted on",
+        "rewrited": "In case, the original code was rewrited on",
+        "adapted": "framework. Adapted to"
+    },
+    "upload": {
+        "upload": "Upload",
+        "drop": "Drop your files here"
+    },
+    "compositionItem": {
+        "songTitle": "Song Title",
+        "genre": "Genre",
+        "submit": "Submit",
+        "back": "Go back",
+        "placeholder": {
+            "title": "Enter Song Title",
+            "genre": "Enter Genre"
+        }
+    },
+    "countries": {
+        "usa": "USA",
+        "mexico": "Mexico",
+        "germany": "Germany",
+        "antartica": "Antartica",
+        "southAmerica": "Suth America"
+    },
+    "index": {
+        "songs": "songs",
+        "getMore": "Get More..."
+    },
+    "manage": {
+        "mySongs": "My Songs",
+        "confirm": "You have unsaved changes. Are you sure you want to leave?"
     }
 }

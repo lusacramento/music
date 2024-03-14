@@ -11,17 +11,25 @@
 				<ul class="flex flex-row mt-1">
 					<!-- Navigation Links -->
 					<li v-if="!useMyUserStore().isLoggedIn">
-						<a class="px-2 text-white" href="#" @click.prevent="toggleAuthModal"
-							>Login / Register</a
+						<a
+							class="px-2 text-white"
+							href="#"
+							@click.prevent="toggleAuthModal"
+							>{{ $t('header.loginRegister') }}</a
 						>
 					</li>
 					<template v-else>
 						<li>
-							<NuxtLink to="/manage" class="px-2 text-white">Manage</NuxtLink>
+							<NuxtLink to="/manage" class="px-2 text-white">{{
+								$t('header.manage')
+							}}</NuxtLink>
 						</li>
 						<li>
-							<NuxtLink @click.prevent="logout" class="px-2 text-white" to="/"
-								>Logout</NuxtLink
+							<NuxtLink
+								@click.prevent="logout"
+								class="px-2 text-white"
+								to="/"
+								>{{ $t('header.logout') }}</NuxtLink
 							>
 						</li>
 					</template>

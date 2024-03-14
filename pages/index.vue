@@ -6,7 +6,7 @@
 				class="bg-white rounded border border-gray-200 relative flex flex-col"
 			>
 				<div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
-					<span class="card-title">Songs</span>
+					<span class="card-title">{{ $t('index.songs') }}</span>
 					<!-- AppIcon -->
 					<AppIcon
 						icon="fa-headphones-alt"
@@ -24,7 +24,7 @@
 					@click.prevent="getMoreSongs"
 					v-if="isMoreSongs"
 				>
-					Get More...
+					{{ $t('index.getMore') }}
 				</button>
 			</div>
 		</section>
