@@ -31,7 +31,10 @@ export const useMyCommentsStore = defineStore({
 						id: doc.id,
 						...doc.data(),
 					}
-					currentComment.datePosted = new Date(currentComment.datePosted * 1000)
+					currentComment.datePosted = useHelper().getElapsedTime(
+						new Date(currentComment.datePosted.seconds * 1000),
+					)
+
 					this.comments.push({
 						...currentComment,
 					})
@@ -46,7 +49,9 @@ export const useMyCommentsStore = defineStore({
 				const commentsCollection = useNuxtApp().$commentsCollection
 
 				await addDoc(commentsCollection, comment).then(async () => {
-					this.comments.push(comment)
+					comment.datePosted = 'now'
+
+					this.comments.unshift(comment)
 				})
 			} catch (error) {}
 		},
